@@ -5,6 +5,7 @@ const path = require('path');
 const app = express();
 
 const userRoutes = require('./routes/user');
+const postRoutes = require('./routes/post');
 
 
 require("dotenv").config();
@@ -36,13 +37,9 @@ app.use((req, res, next) => {
 app.use(helmet());
 
 app.use('/api/auth', userRoutes);
+app.use('/api/content', postRoutes);
 
 // Required by multer to save pictures on the server
 app.use('/images', express.static(path.join(__dirname, 'images')));
-
-app.get('/', function (req, res){
-  res.setHeader('Content-Type', 'text/html');
-  res.status(200).send('<br><br><br><h1 style="text-align:center">SERVEUR OPÉRATIONNEL</h1>');
-});
 
 module.exports = app;

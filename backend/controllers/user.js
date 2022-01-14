@@ -1,10 +1,11 @@
 const User = require('../models').User;
+
 const CryptoJS = require("crypto-js");
-const jwt = require('jsonwebtoken');
+const jwToken = require('../utils/token');
 const bcrypt = require('bcrypt');
 require("dotenv").config();
 
-// Add the user encrypted mail and hashed password into the database
+// CREATE (Signup)
 exports.signup = (req, res, next) => {
   
   const { email, password, name, surname, image, description } = req.body; // destructuring
@@ -21,33 +22,26 @@ exports.signup = (req, res, next) => {
       bcrypt.hash(password, 10)
       .then(hash => {
         User.create({
-          isAdmin: false,
-          email: encryptedMail,
-          password: hash,
-          name: name,
-          surname: surname,
-          image: image,
-          description: description
+          isAdmin: false,                         // Security key
+          email: encryptedMail, password: hash,   // Login informations
+          name: name, surname: surname,           // Profile mandatory
+          image: image, description: description  // Profile facultative
         })
         .then(res.status(201).json({ message: "L'utilisateur a été créé !" }))
-        .catch(res.status(403).json({ error }));
+        .catch(res.status(400).json({ error }));
       })
     }
   })
   .catch(error => res.status(500).json({ error }));
 };
 
-
-/* The mail is two-ways encrypted. It can still be decrypted to mail the user ;
-   The password is one-way hashed. It can only be compared to a hashed string ;
-   The JSON web token is signed by four nonsensical SHA256 hashes (256 chars) */
+// ACCESS (Login)
 exports.login = (req, res, next) => {
     
     const { email, password } = req.body; // destructuring
     const encryptedMail  = CryptoJS.EvpKDF(email, process.env.CRYPTOMAIL).toString(CryptoJS.enc.Base64);
     
     User.findOne({
-      attributes: ['email', 'password'],
       where: {email: encryptedMail}
     })
       .then(user => {
@@ -60,15 +54,8 @@ exports.login = (req, res, next) => {
               return res.status(401).json({ error: 'Mot de passe incorrect !' });
             }
             res.status(200).json({
-              userId: user._id,
-              token: jwt.sign(
-                { userId: user._id },
-                `${process.env.TOKEN_1}`+
-                `${process.env.TOKEN_2}`+
-                `${process.env.TOKEN_3}`+
-                `${process.env.TOKEN_4}`,
-                { expiresIn: '24h' }
-              )
+              userId: user.id,
+              token: jwToken.sign(user)
             });
           })
           .catch(error => res.status(403).json({ error }));
