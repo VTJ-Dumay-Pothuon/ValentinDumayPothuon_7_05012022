@@ -7,5 +7,6 @@ const passwordCtrl = require('../middleware/checkPassword');
 
 router.post('/signup',emailCtrl, passwordCtrl, userCtrl.signup);
 router.post('/login', userCtrl.login);
+router.get('/logout', userCtrl.logout);
 
 module.exports = router;

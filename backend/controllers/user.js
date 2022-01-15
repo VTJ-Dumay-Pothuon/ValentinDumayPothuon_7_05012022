@@ -35,7 +35,7 @@ exports.signup = (req, res, next) => {
   .catch(error => res.status(500).json({ error }));
 };
 
-// ACCESS (Login)
+// ACCESS (Login/Logout)
 exports.login = (req, res, next) => {
     
     const { email, password } = req.body; // destructuring
@@ -53,12 +53,26 @@ exports.login = (req, res, next) => {
             if (!valid) {
               return res.status(401).json({ error: 'Mot de passe incorrect !' });
             }
+            const token = jwToken.sign(user);
+            res.cookie(
+              'token', token, 
+              { 
+                domain: "http://localhost/3000",
+                maxAge: 24 * 60 * 60 * 1000, // 24h
+                secure: true
+            });
             res.status(200).json({
+              message: "Utilisateur connecté",
               userId: user.id,
-              token: jwToken.sign(user)
+              token: token
             });
           })
           .catch(error => res.status(403).json({ error }));
       })
       .catch(error => res.status(500).json({ error }));
   };
+
+exports.logout = (req, res, next) => {
+  //res.clearCookie("token");
+  res.status(200).json({ message: "Utilisateur déconnecté" });
+};
