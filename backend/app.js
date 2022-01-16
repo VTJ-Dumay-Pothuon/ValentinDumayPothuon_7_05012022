@@ -39,14 +39,10 @@ app.use((req, res, next) => {
 app.use(helmet());
 app.use(cookieParser());
 
-app.use(
-  cors({
-    origin : "http://localhost:8080",
-    credentials: true
-}));
+app.use(cors({origin: "http://localhost:8080", credentials: true}));
 
 app.use('/api/auth', userRoutes);
-app.use('/api/content', postRoutes);
+app.use('/api/post', postRoutes);
 
 // Required by multer to save pictures on the server
 app.use('/images', express.static(path.join(__dirname, 'images')));
