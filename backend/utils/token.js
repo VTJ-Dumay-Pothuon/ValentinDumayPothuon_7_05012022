@@ -14,8 +14,7 @@ module.exports = {
           );
     },
 
-    getUserId: function(authorization) {
-        const token = authorization.split(' ')[1];
+    getUserId: function(token) {
         const decodedToken = jwt.verify(token,
         `${process.env.TOKEN_1}`+
         `${process.env.TOKEN_2}`+
@@ -23,5 +22,15 @@ module.exports = {
         `${process.env.TOKEN_4}`,);
         
         return decodedToken.userId;
+    },
+
+    getAdminStatus: function(token) {
+        const decodedToken = jwt.verify(token,
+        `${process.env.TOKEN_1}`+
+        `${process.env.TOKEN_2}`+
+        `${process.env.TOKEN_3}`+
+        `${process.env.TOKEN_4}`,);
+        
+        return decodedToken.isAdmin;
     }
 }

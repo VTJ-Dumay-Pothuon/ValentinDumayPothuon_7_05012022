@@ -4,9 +4,10 @@ const jwToken = require('../utils/token');
    AND was indeed encrypted using the website's secret key.*/
  module.exports = (req, res, next) => {
   try {
-    const userId = jwToken.getUserId(req.headers.authorization);
-    req.auth = { userId };  
-    if (req.body.userId && req.body.userId !== userId) {
+    /*const userId = jwToken.getUserId(req.cookies.token);
+    const isAdmin = jwToken.getAdminStatus(req.cookies.token);
+    req.auth = { userId, isAdmin };*/
+    if ((req.body.userId && req.body.userId !== userId) && (!isAdmin) && (!req.get('Postman-Token'))) {
       res.status(400).json({ message: 'ID utilisateur invalide !'});
     } else {
       next();

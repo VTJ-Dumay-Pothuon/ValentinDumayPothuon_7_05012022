@@ -38,20 +38,22 @@ exports.signup = (req, res, next) => {
 // READ (Get user profile)
 exports.getProfile = (req, res, next) => {
   const id = req.params.id;
-  console.log (id);
+  const idVisitor = jwtUtils.getUserId(req.cookies.token);
+  const isAdminVisitor = jwtUtils.getAdminStatus(req.cookies.token);
+  const canEdit = (id==idVisitor || isAdminVisitor)
   User.findOne({
-    attributes: ['name', 'surname', 'image', 'description'],
+    attributes: ['id', 'name', 'surname', 'image', 'description'],
     where: {id: id}
   })
   .then(user => {
-    res.status(200).json({ user });
+    res.status(200).json({ user: user, canEdit: canEdit });
   })
 };
 
 // UPDATE (Edit user profile)
 exports.editProfile = (req, res, next) => {
   
-  const userId = jwtUtils.getUserId(req.headers.authorization);
+  const userId = req.params.id;
 
   User.findOne({
     where: {id: userId}
@@ -74,9 +76,11 @@ exports.editProfile = (req, res, next) => {
 
 // DELETE (Delete user)
 exports.deleteUser = (req, res, next) => {
-  const encryptedMail = CryptoJS.EvpKDF(req.body.email, process.env.CRYPTOMAIL).toString(CryptoJS.enc.Base64);
+
+  const userId = req.params.id;
+
   User.findOne({
-    where: {email: encryptedMail}
+    where: {id: userId}
   })
   .then(user => {
     user.destroy(); // Removes the entire user entry from database
@@ -108,10 +112,10 @@ exports.login = (req, res, next) => {
             res.cookie(
               'token', token, 
               { 
-                domain: "http://localhost:8080",
+                //domain: "http://localhost:8080",
                 maxAge: 90000000,
                 sameSite: 'none',
-                httpOnly: true,
+                httpOnly: false,
                 secure: true
             });
             res.status(200).json({
@@ -132,7 +136,7 @@ exports.logout = (req, res, next) => {
 // Special update for password only
 exports.changePassword = (req, res, next) => {
   
-  const userId = jwtUtils.getUserId(req.headers.authorization);
+  const userId = jwtUtils.getUserId(req.cookies.token);
 
   User.findOne({
     where: {id: userId}
