@@ -3,12 +3,13 @@ const router = express.Router();
 
 const auth = require('../middleware/auth');
 const userCtrl = require('../controllers/user');
+const multer = require('../middleware/multer-config');
 const emailCtrl = require('../middleware/checkEmail');
 const passwordCtrl = require('../middleware/checkPassword');
 
 router.post('/signup',emailCtrl, passwordCtrl, userCtrl.signup); // C
 router.get('/profile/:id', userCtrl.getProfile)                  // R
-router.put('/edit/:id', auth, userCtrl.editProfile);             // U
+router.put('/edit/:id', auth, multer, userCtrl.editProfile);     // U
 router.put('/changepass', auth, userCtrl.changePassword);        // U
 router.delete('/delete/:id', auth, userCtrl.deleteUser);         // D
 

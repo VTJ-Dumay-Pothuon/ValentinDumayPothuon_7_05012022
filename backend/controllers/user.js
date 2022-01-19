@@ -1,8 +1,9 @@
 const User = require('../models').User;
 
-const CryptoJS = require("crypto-js");
 const jwtUtils = require('../utils/token');
+const CryptoJS = require("crypto-js");
 const bcrypt = require('bcrypt');
+const fs = require("fs");
 require("dotenv").config();
 
 // CREATE (Signup)
@@ -54,15 +55,21 @@ exports.getProfile = (req, res, next) => {
 exports.editProfile = (req, res, next) => {
   
   const userId = req.params.id;
-
   User.findOne({
     where: {id: userId}
   })
   .then(user => {
     const name = req.body.name ? req.body.name : user.name;
     const surname = req.body.surname ? req.body.surname : user.surname;
-    const image = req.body.image ? req.body.image : null;
     const description = req.body.description ? req.body.description : null;
+    if (user.image) {
+      console.log (user.image)
+      const filename = user.image.split('/images/profiles/')[1];
+      console.log (filename)
+      if (req.file) fs.unlink(`images/profiles/${filename}`,
+      (error) => { if (error) console.log({ error })});
+    }
+    const image = req.file ? `${req.protocol}://${req.get('host')}/images/profiles/${req.file.filename}` : null;
     console.log (`${name} ${surname} a l'image : ${image} et la description : ${description}`);
     user.set({
       name: name, surname: surname,           // Profile mandatory
