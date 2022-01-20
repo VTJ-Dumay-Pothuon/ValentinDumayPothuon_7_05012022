@@ -52,7 +52,7 @@ exports.getProfile = (req, res, next) => {
 };
 
 // UPDATE (Edit user profile)
-exports.editProfile = (req, res, next) => {
+exports.updateProfile = (req, res, next) => {
   
   const userId = req.params.id;
   User.findOne({
@@ -61,16 +61,15 @@ exports.editProfile = (req, res, next) => {
   .then(user => {
     const name = req.body.name ? req.body.name : user.name;
     const surname = req.body.surname ? req.body.surname : user.surname;
-    const description = req.body.description ? req.body.description : null;
+    const description = req.body.description ? req.body.description : '';
     if (user.image) {
-      console.log (user.image)
       const filename = user.image.split('/images/profiles/')[1];
-      console.log (filename)
       if (req.file) fs.unlink(`images/profiles/${filename}`,
       (error) => { if (error) console.log({ error })});
     }
-    const image = req.file ? `${req.protocol}://${req.get('host')}/images/profiles/${req.file.filename}` : null;
-    console.log (`${name} ${surname} a l'image : ${image} et la description : ${description}`);
+    const image = req.file ? `${req.protocol}://${req.get('host')}/images/profiles/${req.file.filename}` : 
+    user.image ? user.image : null;
+    // console.log (`${name} ${surname} a l'image : ${image} et la description : ${description}`);
     user.set({
       name: name, surname: surname,           // Profile mandatory
       image: image, description: description  // Profile facultative
@@ -90,6 +89,11 @@ exports.deleteUser = (req, res, next) => {
     where: {id: userId}
   })
   .then(user => {
+    if (user.image) {
+      const filename = user.image.split('/images/profiles/')[1];
+      fs.unlink(`images/profiles/${filename}`,
+      (error) => { if (error) console.log({ error })});
+    }
     user.destroy(); // Removes the entire user entry from database
     res.status(204).json({ message: "L'utilisateur a été supprimé !" });
   })

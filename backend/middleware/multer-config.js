@@ -8,7 +8,7 @@ const MIME_TYPES = {
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    if (req.route.path=='/edit/:id') {
+    if (req.route.path=='/update/:id') {
       callback(null, 'images/profiles');
     } else {
       callback(null, 'images/posts');
