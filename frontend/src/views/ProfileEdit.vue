@@ -7,6 +7,7 @@
         type="text"
         class="form-control"
         placeholder="Prénom"
+        maxlength="255"
         required
       />
       <label for="floatingInput">Prénom</label>
@@ -17,6 +18,7 @@
         type="text"
         class="form-control"
         placeholder="Nom"
+        maxlength="255"
         required
       />
       <label for="floatingInput">Nom de famille</label>
@@ -27,6 +29,7 @@
         type="text"
         class="form-control"
         placeholder="Description"
+        maxlength="255"
       />
       <label for="floatingInput">Description</label>
     </div>
@@ -45,6 +48,7 @@
         type="password"
         class="form-control"
         placeholder="Password"
+        maxlength="255"
         required
       />
       <label for="floatingInput">Mot de passe</label>

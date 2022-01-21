@@ -7,6 +7,7 @@
         type="text"
         class="form-control"
         placeholder="Titre"
+        maxlength="255"
         required
       />
       <label for="floatingInput">Titre</label>

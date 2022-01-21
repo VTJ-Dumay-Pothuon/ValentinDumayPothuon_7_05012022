@@ -8,6 +8,7 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
+const commentRoutes = require('./routes/comment');
 
 
 require("dotenv").config();
@@ -43,6 +44,7 @@ app.use(cors({origin: "http://localhost:8080", credentials: true}));
 
 app.use('/api/auth', userRoutes);
 app.use('/api/post', postRoutes);
+app.use('/api/comment', commentRoutes);
 
 // Required by multer to save pictures on the server
 app.use('/images', express.static(path.join(__dirname, 'images')));

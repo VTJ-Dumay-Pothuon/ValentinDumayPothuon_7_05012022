@@ -76,21 +76,50 @@
 
 </script>
 
- <style scoped>
+ <style scoped lang=scss>
+  nav .container-fluid div + div {
+    width: 90%;
+  }
   .img-logo {
-      max-height: 50px;
+    max-height: 50px;
   }
-  .navbar-nav {
-      text-align: center;
+  .nav {
+    &bar-nav {
       font-size: 1.2em;
+      width: 100%;
+    }
+    &-item {
+      padding: 0 10px;
+      margin: 5px;
+      border: 1pt solid white;
+      border-radius: 10px;
+    }
   }
-  @media screen and (min-width: 645px)  {
-      .navbar-nav {
+  @media screen and (min-width: 524px) {
+    nav .container-fluid div + div {
+      width: initial;
+    }
+  }
+  @media screen and (min-width: 524px) and (max-width: 735px) {
+    .navbar-nav {
+        text-align: right;
+        margin-right: 10px;
+    }
+  }
+  @media screen and (min-width: 735px)  {
+    .nav {
+      &bar-nav {
           flex-direction: row;
           font-size: inherit;
+
       }
-      .nav-link {
+      &-link {
           padding: .5rem;
       }
+      &-item {
+        border: none;
+      }
+    }
+      
   }
 </style>

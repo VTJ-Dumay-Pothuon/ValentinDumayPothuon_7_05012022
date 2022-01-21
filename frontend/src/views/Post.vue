@@ -9,6 +9,8 @@
             <button v-on:click="deletePost"></button>
         </aside> 
     </article>
+    <div id="comment__btn"><button v-on:click="commentPost">Répondre</button></div>
+    <section id="comment__section"></section>
 </template>
 
 <script>
@@ -37,6 +39,11 @@
                 .catch((error) => {
                     console.log(error, event);
                 });
+            },
+            commentPost() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get('id');
+                this.router.push(`/comment?postid=${id}`);
             }
         },
         setup () {
@@ -78,6 +85,7 @@
 </script>
 
 <style scoped lang=scss>
+    .post { margin: 0 40px }
     #post {
         margin: 20px;
         &--edit {
@@ -120,5 +128,23 @@
             }
         }
     }
-    .post { margin: 0 20% 0 10% }
+    #comment__btn {
+        font-size: 20pt;
+        margin: 10pt;
+        text-align: center;
+        button {
+            padding: 0 20pt;
+            border: 1pt solid black;
+            box-shadow: 5px 4px 3px #0003;
+            border-radius: 10px;
+            background: none;
+        }
+    }
+    @media screen and (min-width: 1000px) {
+        .post { margin-right: 20% }
+        #comment__btn {
+            text-align: left;
+            margin-left: 10%;
+        }
+    }
 </style>

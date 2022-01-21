@@ -7,6 +7,7 @@
         type="email"
         class="form-control"
         placeholder="name@example.com"
+        maxlength="255"
         required
       />
       <label for="floatingInput">Adresse email</label>
@@ -17,6 +18,7 @@
         type="password"
         class="form-control"
         placeholder="Password"
+        maxlength="255"
         required
       />
       <label for="floatingPassword">Mot de passe</label>
@@ -27,6 +29,7 @@
         type="test"
         class="form-control"
         placeholder="Prénom"
+        maxlength="255"
         required
       />
       <label for="floatingInput">Prénom</label>
@@ -37,6 +40,7 @@
         type="test"
         class="form-control"
         placeholder="Nom"
+        maxlength="255"
         required
       />
       <label for="floatingInput">Nom de famille</label>
@@ -60,7 +64,6 @@
       });
       const router = useRouter();
       const submit = async () => {
-        console.log(data);
         await fetch('http://localhost:3000/api/auth/signup', {
           method: "POST",
           headers: {

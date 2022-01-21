@@ -7,6 +7,7 @@
         type="text"
         class="form-control"
         placeholder="Titre"
+        maxlength="255"
         required
       />
       <label for="floatingInput">Titre</label>
@@ -33,6 +34,7 @@
     <button class="w-100 btn btn-lg btn-primary" type="submit">Valider</button>
   </form>
 </template>
+
 <script>
   import {reactive} from 'vue';
   import {useRouter} from 'vue-router';

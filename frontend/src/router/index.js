@@ -11,6 +11,8 @@ import Post from "../views/Post.vue"
 import PostCreate from "../views/PostCreate.vue"
 import PostEdit from "../views/PostEdit.vue"
 
+import Comment from "../views/Comment.vue"
+
 
 const routes = [
     {
@@ -52,6 +54,11 @@ const routes = [
     {
         path: "/post/edit",
         component: PostEdit,
+        props: true
+    },
+    {
+        path: "/comment",
+        component: Comment,
         props: true
     }
 ];
