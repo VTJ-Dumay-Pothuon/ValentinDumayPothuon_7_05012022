@@ -31,6 +31,7 @@
   }
   .navbar-brand h1 {
     font-size: 2.5em;
+    text-align: center;
   }
   .form-signin {
     width: 100%;
@@ -71,7 +72,7 @@
     padding: 10px;
     margin: 10px auto;
     box-shadow: 5px 4px 3px #0003;
-    &:before {
+    &::before {
       content: "";
       position: absolute;
       margin-top: -6px;
@@ -83,7 +84,7 @@
       left: -28px;
       top: 20px;
     }
-    &:after {
+    &::after {
         content: "";
         position: absolute;
         margin-top: -6px;
@@ -122,16 +123,77 @@
       font-size: 2em;
     }
   }
-  #post {
-    &__author {
-      img {
-        display: inline;
+  #post__author {
+    img {
+      display: inline;
+      position: absolute;
+      max-height: 45px;
+      border: 1.5pt solid black;
+      border-radius: 10px;
+      padding: 5px;
+    }
+  }
+  .comment {
+    display: grid;
+    margin: 10px auto;
+    grid-template-columns: auto 15%;
+    &__content {
+      position: relative;
+      border: 1pt solid black;
+      box-shadow: 5px 4px 3px #0003;
+      margin: 0 15px;
+      border-radius: 10px;
+      padding: 20px;
+      width: fit-content;
+      height: fit-content;
+      align-self: center;
+      justify-self: end;
+      &::before {
+        content: "";
         position: absolute;
-        max-height: 45px;
+        margin-top: -6px;
+        margin-left: -5px;
+        border-left: 15pt solid transparent;
+        border-right: 20pt solid transparent;
+        border-bottom: 15pt solid black;
+        transform: rotate(-45deg);
+        right: -33px;
+        top: 20px;
+      }
+      &::after {
+          content: "";
+          position: absolute;
+          margin-top: -6px;
+          margin-left: -5px;
+          border-left: 15pt solid transparent;
+          border-right: 20pt solid transparent;
+          border-bottom: 15pt solid white;
+          box-shadow: 0 8px 3px -3px #0003;
+          transform: rotate(-45deg);
+          right: -31px;
+          top: 21px;
+      }
+    }
+    &__author {
+      padding-top: 5pt;
+      h3 { text-align: center }
+      a {
+        display: block;
+        text-align: center;
+      }
+      img {
+        height: 60px !important;
+        width:  60px !important;
         border: 1.5pt solid black;
         border-radius: 10px;
         padding: 5px;
       }
+    }
+  }
+  @media screen and (max-width: 335px) {
+    .container-fluid div {
+      display: inline-block;
+      width: 100%;
     }
   }
   @media screen and (min-width: 800px) {

@@ -77,8 +77,11 @@
 </script>
 
  <style scoped lang=scss>
-  nav .container-fluid div + div {
-    width: 90%;
+  nav .container-fluid div {
+    margin-bottom: 10px;
+    + div {
+      width: 90%;
+    }
   }
   .img-logo {
     max-height: 50px;
@@ -96,8 +99,11 @@
     }
   }
   @media screen and (min-width: 524px) {
-    nav .container-fluid div + div {
-      width: initial;
+    nav .container-fluid div {
+      margin-bottom: 0;
+      + div {
+        width: initial;
+      }
     }
   }
   @media screen and (min-width: 524px) and (max-width: 735px) {

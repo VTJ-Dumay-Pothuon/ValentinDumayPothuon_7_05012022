@@ -19,5 +19,12 @@ exports.createComment = (req, res, next) => {
 
 // READ
 exports.getPostComments = (req, res, next) => {
-
-}
+    const id = req.params.id;
+    Comment.findAll({
+        where: {PostId: id}
+    })
+    .then(comments => {
+        res.status(200).json({ comments });
+    })
+    .catch(error => res.status(500).json({ error }));
+};

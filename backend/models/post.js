@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.User.hasMany(models.Comment, { onDelete: 'cascade' });
       models.Post.belongsTo (models.User, {
         foreignKey: {
           allowNull: false

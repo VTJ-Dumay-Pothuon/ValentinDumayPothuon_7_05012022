@@ -56,7 +56,7 @@
                     store.dispatch("setPostEdit", res.canEdit);
                     router.go(); // Force view reload only if edit right has changed
                 }
-                document.getElementById('post').innerHTML += 
+                document.getElementById('post').innerHTML = 
                 '<article id=post__'+res.post.id+'>'
                 +'<h2>'+res.post.title+'<small id="post__author"></small></h2>'
                 +'<p>'+res.post.body+'</p></article>';
@@ -80,12 +80,34 @@
                 document.getElementById('post--delete').firstChild.innerHTML =
                 '<i class="fas fa-trash-alt"></i>';
             }))
+            .then(fetch(`http://localhost:3000/api/comment/readfor/${id}`)
+            .then(obj => obj.json().then(res => {
+                document.getElementById('comment__section').innerHTML='';
+                for (let comment of res.comments) {
+                    document.getElementById('comment__section').insertAdjacentHTML('afterbegin',
+                    '<section class="comment">'
+                        
+                        +'<article class="comment__content" id="post__'+id+'__comment__'+comment.id+'">'
+                            +'<p>'+comment.body+'</p>'
+                        +'</article>'
+                        +'<section class="comment__author" id="comment__'+comment.id+'__author"></section>'
+                    +'</section>');
+
+                    fetch(`http://localhost:3000/api/auth/profile/${comment.UserId}`,{credentials: "include"})
+                    .then(obj => obj.json().then(res => {
+                        document.getElementById(`comment__${comment.id}__author`).innerHTML = 
+                        '<a class="link-dark" href="/profile?id='+res.user.id+'">'
+                        +'<picture><img src="'+res.user.image+'" alt="" /></picture>'
+                        +'<h3>'+res.user.name+' '+res.user.surname+'</h3></a>';
+                }))}
+            })));
         },
     }
 </script>
 
 <style scoped lang=scss>
     .post { margin: 0 40px }
+    #comment__section { margin: 0 20px }
     #post {
         margin: 20px;
         &--edit {
@@ -142,6 +164,7 @@
     }
     @media screen and (min-width: 1000px) {
         .post { margin-right: 20% }
+        #comment__section { margin-left: 20% }
         #comment__btn {
             text-align: left;
             margin-left: 10%;
