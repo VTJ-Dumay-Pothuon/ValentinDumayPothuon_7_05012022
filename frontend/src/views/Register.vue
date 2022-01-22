@@ -29,7 +29,7 @@
         type="test"
         class="form-control"
         placeholder="Prénom"
-        maxlength="255"
+        maxlength="50"
         required
       />
       <label for="floatingInput">Prénom</label>
@@ -40,7 +40,7 @@
         type="test"
         class="form-control"
         placeholder="Nom"
-        maxlength="255"
+        maxlength="50"
         required
       />
       <label for="floatingInput">Nom de famille</label>

@@ -35,6 +35,7 @@
             transform: translateY(0) ;
         }
     }
+    
   main {
     max-width: 1300px;
     margin: auto;
@@ -72,12 +73,22 @@
   .home__post {
     display: grid;
     margin: 10px auto;
-    grid-template-columns: 22% auto;
-    a { margin: 0 10px }
+    grid-template-columns: 25% auto;
+    a { margin: 0 2px }
+    p {
+      overflow: auto;
+      max-height: 200px;
+    }
+    img { max-width: 100% }
     &__author {
       padding-top: 5pt;
       animation: content--appear 1s 500ms both;
-      h3 { text-align: center }
+      h3 { 
+        text-align: center;
+        font-size: 5vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
       a {
         display: block;
         text-align: center;
@@ -96,7 +107,7 @@
     border: 1pt solid black;
     border-radius: 10px;
     padding: 10px;
-    margin: 10px auto;
+    margin: 10px 5px 0 0;
     box-shadow: 5px 4px 3px #0003;
     animation: content--appear 1s 500ms both;
     &::before {
@@ -128,6 +139,7 @@
     }
     img {
         max-height: 200px;
+        max-width: 100%;
         display: flex;
         margin: 0 auto;
     }
@@ -136,16 +148,20 @@
     }
   }
   #profile {
+            animation: content--appear 1s 550ms both;
     &__posts {
+      > p { animation: content--appear 1s 550ms both }
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       a {
         display: block;
         margin: 10pt 30pt;
-        max-width: 49%;
+        p {
+          overflow: auto;
+          max-height: 200px;
+        }
       }
-      > p { animation: content--appear 1s 550ms both }
     }
     &--edit .fas {
       font-size: 2em;
@@ -204,7 +220,10 @@
     }
     &__author {
       padding-top: 5pt;
-      h3 { text-align: center }
+      h3 { 
+        text-align: center;
+        font-size: 4.5vw;
+      }
       a {
         display: block;
         text-align: center;
@@ -218,7 +237,6 @@
       }
     }
   }
-  #profile     { animation: content--appear 1s 550ms both }
   #comment {
         &__btn { animation: content--appear 1s  500ms both }
     &__section { animation: content--appear 1s 1000ms both }
@@ -229,8 +247,27 @@
       width: 100%;
     }
   }
+  @media screen and (min-width: 500px) {
+    .home__post__author h3 { font-size: revert }
+       .comment__author h3 { font-size: revert }
+  }
   @media screen and (min-width: 800px) {
-    .home__post { grid-template-columns: 25% auto }
+    .post { margin: 10px auto }
+    .home__post { 
+      grid-template-columns: min-content auto;
+      &__author { min-width: 130px }
+    }
     .navspace { width: 30pt }
+    #profile__posts {
+      /* arbitrarily high maximum value ; 
+      will stop at last (or 999th) post */
+      a { max-width: 49% }
+      @for $i from 1 to 1000 {
+        a:nth-child(#{$i}) {
+          align-self: center;
+          margin-top: -20 + random(40) +px;
+        }
+      }
+    }
   }
 </style>

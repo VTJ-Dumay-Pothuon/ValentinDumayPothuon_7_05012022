@@ -7,7 +7,7 @@
         type="text"
         class="form-control"
         placeholder="Prénom"
-        maxlength="255"
+        maxlength="50"
         required
       />
       <label for="floatingInput">Prénom</label>
@@ -18,7 +18,7 @@
         type="text"
         class="form-control"
         placeholder="Nom"
-        maxlength="255"
+        maxlength="50"
         required
       />
       <label for="floatingInput">Nom de famille</label>
@@ -37,7 +37,8 @@
       <input
         type="file"
         class="form-control"
-        placeholder="Description"
+        accept="image/png, image/jpeg, image/jpg"
+        placeholder="Image"
         v-on:change="selectFile"
       />
     </div>

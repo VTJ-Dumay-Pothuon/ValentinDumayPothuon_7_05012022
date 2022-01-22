@@ -7,7 +7,7 @@
         type="text"
         class="form-control"
         placeholder="Titre"
-        maxlength="255"
+        maxlength="100"
         required
       />
       <label for="floatingInput">Titre</label>
@@ -26,7 +26,8 @@
       <input
         type="file"
         class="form-control"
-        placeholder="Description"
+        accept="image/png, image/jpeg, image/jpg, image/gif"
+        placeholder="Image"
         v-on:change="selectFile"
       />
     </div>
