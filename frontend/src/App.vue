@@ -24,6 +24,17 @@
 
 
 <style lang=scss>
+  @keyframes content--appear {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        80% {opacity: 1;}
+        to {
+            opacity: 1;
+            transform: translateY(0) ;
+        }
+    }
   main {
     max-width: 1300px;
     margin: auto;
@@ -45,12 +56,27 @@
       z-index: 2;
     }
   }
+  .btn-primary {
+    margin-top: 10pt;
+    color: black;
+    background: none;
+    border: 1pt solid black;
+    border-radius: 10px;
+    box-shadow: 5px 4px 3px #0003;
+    &:hover {
+      color: black;
+      background-color: #EEE;
+      border: 1pt solid black;
+    }
+  }
   .home__post {
     display: grid;
     margin: 10px auto;
-    grid-template-columns: 15% auto;
+    grid-template-columns: 22% auto;
+    a { margin: 0 10px }
     &__author {
       padding-top: 5pt;
+      animation: content--appear 1s 500ms both;
       h3 { text-align: center }
       a {
         display: block;
@@ -72,6 +98,7 @@
     padding: 10px;
     margin: 10px auto;
     box-shadow: 5px 4px 3px #0003;
+    animation: content--appear 1s 500ms both;
     &::before {
       content: "";
       position: absolute;
@@ -118,6 +145,7 @@
         margin: 10pt 30pt;
         max-width: 49%;
       }
+      > p { animation: content--appear 1s 550ms both }
     }
     &--edit .fas {
       font-size: 2em;
@@ -190,6 +218,11 @@
       }
     }
   }
+  #profile     { animation: content--appear 1s 550ms both }
+  #comment {
+        &__btn { animation: content--appear 1s  500ms both }
+    &__section { animation: content--appear 1s 1000ms both }
+  }
   @media screen and (max-width: 335px) {
     .container-fluid div {
       display: inline-block;
@@ -197,6 +230,7 @@
     }
   }
   @media screen and (min-width: 800px) {
+    .home__post { grid-template-columns: 25% auto }
     .navspace { width: 30pt }
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <article class="post">
         <div id="post"></div>
-        <picture id="profile__picture">
+        <picture id="post__picture">
             <img src="" alt="" />
         </picture>
         <aside v-show="canEditPost" id="post--edit" :key="reload"></aside> 
@@ -62,7 +62,7 @@
                 +'<p>'+res.post.body+'</p></article>';
 
                 if (res.post.image) {
-                document.getElementById('profile__picture').firstChild.src = res.post.image
+                document.getElementById('post__picture').firstChild.src = res.post.image
                 }
 
                 fetch(`http://localhost:3000/api/auth/profile/${res.post.UserId}`,{credentials: "include"})
@@ -71,6 +71,11 @@
                         ', par <a class="link-dark" href="/profile?id='+res.user.id+'">'
                         +res.user.name+' '+res.user.surname+'&nbsp;'
                         +'<picture><img src="'+res.user.image+'" alt="" /></picture></a>';
+                        if (!res.user.image) {
+                            document.getElementById('post__author')
+                            .children[0].children[0].firstChild.src =
+                            "/img/user-default.1fab100a.svg";
+                        }
                     }))
 
                 document.getElementById('post--edit').innerHTML =
@@ -99,6 +104,11 @@
                         '<a class="link-dark" href="/profile?id='+res.user.id+'">'
                         +'<picture><img src="'+res.user.image+'" alt="" /></picture>'
                         +'<h3>'+res.user.name+' '+res.user.surname+'</h3></a>';
+                        if (!res.user.image) {
+                            document.getElementById(`comment__${comment.id}__author`)
+                            .children[0].children[0].firstChild.src =
+                            "/img/user-default.1fab100a.svg";
+                        }
                 }))}
             })));
         },
@@ -107,7 +117,6 @@
 
 <style scoped lang=scss>
     .post { margin: 0 40px }
-    #comment__section { margin: 0 20px }
     #post {
         margin: 20px;
         &--edit {
@@ -150,17 +159,23 @@
             }
         }
     }
-    #comment__btn {
-        font-size: 20pt;
-        margin: 10pt;
-        text-align: center;
-        button {
-            padding: 0 20pt;
-            border: 1pt solid black;
-            box-shadow: 5px 4px 3px #0003;
-            border-radius: 10px;
-            background: none;
+    #comment {
+        &__section { margin: 0 35px 20px 0 }
+        &__btn {
+            font-size: 20pt;
+            margin: 10pt;
+            text-align: center;
+            button {
+                padding: 0 20pt;
+                border: 1pt solid black;
+                box-shadow: 5px 4px 3px #0003;
+                border-radius: 10px;
+                background: none;
+            }
         }
+    }
+    @media screen and (min-width: 600px) {
+        #comment__section { margin-right: 20px }
     }
     @media screen and (min-width: 1000px) {
         .post { margin-right: 20% }

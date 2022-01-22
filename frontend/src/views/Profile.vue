@@ -17,7 +17,7 @@
     export default {
         name: "Profile",
         data() {return {canEditProfile: null}},
-        created: async function() {
+        mounted: async function() {
             this.canEditProfile = await store.state.canEditProfile;
         },
         setup() {

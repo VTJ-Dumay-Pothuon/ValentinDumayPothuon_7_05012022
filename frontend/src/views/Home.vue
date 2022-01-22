@@ -34,6 +34,11 @@ export default {
                     '<a class="link-dark" href="/profile?id='+res.user.id+'">'
                     +'<picture><img src="'+res.user.image+'" alt="" /></picture>'
                     +'<h3>'+res.user.name+' '+res.user.surname+'</h3></a>';
+                    if (!res.user.image) {
+                            document.getElementById(`post__${post.id}__author`)
+                            .children[0].children[0].firstChild.src =
+                            "/img/user-default.1fab100a.svg";
+                        }
               }))
           }
         }));
