@@ -64,8 +64,10 @@ exports.updateProfile = (req, res, next) => {
     const description = req.body.description ? req.body.description : '';
     if (user.image) {
       const filename = user.image.split('/images/profiles/')[1];
-      if (req.file) fs.unlink(`images/profiles/${filename}`,
-      (error) => { if (error) console.log({ error })});
+      if (req.file || req.body.deleteImage) {
+        fs.unlink(`images/profiles/${filename}`,
+        (error) => { if (error) console.log({ error })});
+      }
     }
     const image = req.file ? `${req.protocol}://${req.get('host')}/images/profiles/${req.file.filename}` : 
     user.image ? user.image : null;
@@ -74,6 +76,7 @@ exports.updateProfile = (req, res, next) => {
       name: name, surname: surname,           // Profile mandatory
       image: image, description: description  // Profile facultative
     });
+    if (req.body.deleteImage) user.set({image: null});
     user.save();
     res.status(200).json({ message: "Le profil a été mis à jour !" });
   })

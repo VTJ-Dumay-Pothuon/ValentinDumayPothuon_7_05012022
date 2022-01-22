@@ -4,8 +4,8 @@
         <picture id="post__picture">
             <img src="" alt="" />
         </picture>
-        <aside v-show="canEditPost" id="post--edit" :key="reload"></aside> 
-        <aside v-show="canEditPost" id="post--delete" :key="reload">
+        <aside v-show="canEditPost" id="post--edit"></aside> 
+        <aside v-show="canEditPost" id="post--delete">
             <button v-on:click="deletePost"></button>
         </aside> 
     </article>

@@ -1,11 +1,16 @@
 <template>
-    <section id="profile">
+    <div v-show="canEditProfile" id="profile__picture--remove">
+        <button v-on:click="removePicture">
+            <i class="far fa-times-circle"></i>
+        </button>
+    </div>
+    <section class="profile" id="profile">
         <section id="profile__upperblock">
             <div><!--empty gridbuilding--></div>
             <picture id="profile__picture">
-                <img src="../assets/user-default.svg" alt="" />
+                <img src="../assets/user-default.svg" alt="">
             </picture>
-            <aside v-show="canEditProfile" id="profile--edit"></aside> 
+            <aside v-show="canEditProfile" id="profile--edit"></aside>
         </section>
     </section>
     <section id="profile__posts"></section>
@@ -16,9 +21,39 @@
     import {useRouter} from 'vue-router';
     export default {
         name: "Profile",
-        data() {return {canEditProfile: null}},
+        data() {return {
+            canEditProfile: null,
+            router: useRouter()
+            }},
         mounted: async function() {
             this.canEditProfile = await store.state.canEditProfile;
+        },
+        methods: {
+            removePicture() {
+                const profile_picture = document.getElementById('profile__picture').firstChild;
+                console.log (profile_picture)
+                if (profile_picture.src != "http://localhost:8080/img/user-default.1fab100a.svg") {
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get('id');
+                const data = { deleteImage: true };
+                fetch(`http://localhost:3000/api/auth/update/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify(data)
+                })
+                .then (() => {
+                    this.router.go(`/profile?id=${id}`)
+                })
+                .catch((error) => {
+                    console.log( error );
+                });
+                } else {
+                    alert ("Ce Groupomaniaque n'a pas d'image de profil à supprimer !")
+                }
+            }
         },
         setup() {
             const router = useRouter();
@@ -79,13 +114,32 @@
     #profile {
         margin: 0 20%;
         text-align: center;
-        &__picture img {
-            max-height: 200px;
-            max-width: 100%;
-            border: 2pt solid black;
-            border-radius: 10px;
-            box-shadow: 5px 4px 3px #0003;
-            padding: 10px;
+        &__picture {
+            img {
+                height: 150px;
+                width: 150px;
+                object-fit: contain;
+                border: 2pt solid black;
+                border-radius: 10px;
+                box-shadow: 5px 4px 3px #0003;
+                padding: 10px;
+                &:hover +div { opacity: 1 }
+            }
+            &--remove {
+                position: absolute;
+                z-index: 2;
+                display: flex;
+                justify-content: center;
+                margin-left: 124px;
+                width: stretch;
+                button {
+                    opacity: 0;
+                    background: none;
+                    border: none;
+                    transition: 200ms ease;
+                    &:hover { opacity: 1 }
+                }
+            }
         }
         &__upperblock {
             display: grid;
@@ -94,7 +148,8 @@
         }
         &--edit {
             margin: 10px;
-            :first-child ::after {
+            z-index: 3;
+            :first-child::after {
                 margin-left: 5px;
                 content: "Modifier";
                 opacity: 0;
@@ -103,6 +158,19 @@
             &:hover :first-child ::after {
                 opacity: 1;
             }
+            .fas::before {
+                z-index: 3;
+            }
+        }
+    }
+    @media screen and (min-width: 1300px) {
+        #profile__picture--remove {
+            max-width: 1300px;
+            display: grid;
+            grid-template-columns: 20px;
+            justify-content: center;
+            margin-right: -60px;
+             margin-left:  60px;
         }
     }
 </style>

@@ -61,7 +61,8 @@ exports.editPost = (req, res, next) => {
   })
   .then(post => {
     const title = req.body.title ? req.body.title : post.title;
-    const body = req.body.body ? req.body.body : post.body;
+    const body = req.body.body ? req.body.body : null;
+    if (body=="null") body = null;
     if (post.image) {
       const filename = post.image.split('/images/posts/')[1];
       if (req.file) fs.unlink(`images/posts/${filename}`,
