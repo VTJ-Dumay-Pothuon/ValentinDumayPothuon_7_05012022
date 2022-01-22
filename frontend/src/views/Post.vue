@@ -85,14 +85,15 @@
                 document.getElementById('post--delete').firstChild.innerHTML =
                 '<i class="fas fa-trash-alt"></i>';
             }))
+    /* From here, we're adding the comments under the post */
             .then(fetch(`http://localhost:3000/api/comment/readfor/${id}`)
             .then(obj => obj.json().then(res => {
                 document.getElementById('comment__section').innerHTML='';
                 for (let comment of res.comments) {
                     document.getElementById('comment__section').insertAdjacentHTML('afterbegin',
                     '<section class="comment">'
-                        
                         +'<article class="comment__content" id="post__'+id+'__comment__'+comment.id+'">'
+                            +'<button class="comment--delete"><i class="fas fa-times"></i></button>'
                             +'<p>'+comment.body+'</p>'
                         +'</article>'
                         +'<section class="comment__author" id="comment__'+comment.id+'__author"></section>'
@@ -109,6 +110,24 @@
                             .children[0].children[0].firstChild.src =
                             "/img/user-default.1fab100a.svg";
                         }
+
+                        /* The eventListener is here so that we can use both comment's and author's infos */
+                        const deleteComment = document.getElementById('post__'+id+'__comment__'+comment.id).firstChild;
+                        deleteComment.addEventListener("click", () => {
+                            if ( !res.canEdit ) return;
+                            const urlParams = new URLSearchParams(window.location.search);
+                            const id = urlParams.get('id');
+                            fetch(`http://localhost:3000/api/comment/delete/${comment.id}`, {
+                                method: "DELETE",
+                                credentials: "include"
+                            })
+                            .then(() => {
+                                router.go(`/post?id=${id}`);
+                            })
+                            .catch((error) => {
+                                console.log(error, event);
+                            });
+                        })
                 }))}
             })));
         },

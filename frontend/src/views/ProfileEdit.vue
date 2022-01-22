@@ -106,6 +106,18 @@
       })
       const router = useRouter();
       const submit = async () => {
+        if (data.name.match(/[<>|/;{}]/g) || data.surname.match(/[<>|/;{}]/g) || 
+            data.description.match(/[<>|/;{}]/gm) || own.password.match(/[<>|/;{}]/g)) {
+          if (!data.description.match(/<br>|<br *\/>/gm) ||
+          data.description.match(/(<br>|<br *\/>)(.*<br>|<br *\/>)/gm)) {
+            if (data.description.match(/<br/gm)) {
+              alert("La description ne peut pas dépasser deux paragraphes !");
+            } else {
+              alert("Un ou plusieurs caractères sont invalides !");
+            }
+            return;
+          }
+        }
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
         const formData = new FormData();
@@ -125,7 +137,7 @@
   };
 </script>
 
-<style scoped>
+<style scoped lang=scss>
   #uploaded img {
     max-height: 100px;
     margin: auto;
@@ -135,7 +147,7 @@
   textarea {
     overflow: auto;
     resize: vertical;
-    height: 100% !important;
+    min-height: max-content !important;
   }
 
   @media screen and (min-width: 600px) {

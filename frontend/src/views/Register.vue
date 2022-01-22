@@ -59,11 +59,15 @@
         email: "",
         password: "",
         name: "",
-        surname: "",
-        description: "",
+        surname: ""
       });
       const router = useRouter();
       const submit = async () => {
+        if (data.name.match(/[<>|/;{}]/g) || data.surname.match(/[<>|/;{}]/g) || 
+            data.email.match(/[<>|/;{}]/g) || data.password.match(/[<>|/;{}]/g)) {
+          alert("Un ou plusieurs caractères sont invalides !");
+          return;
+        }
         await fetch('http://localhost:3000/api/auth/signup', {
           method: "POST",
           headers: {

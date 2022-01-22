@@ -72,15 +72,24 @@
       })
       const router = useRouter();
       const submit = async () => {
+        if (data.title.match(/\||<.*>|{.*}/gm)) {
+          alert("Les balises HTML et les accolades sont interdites dans le titre !");
+          return;
+        }
+        if (data.body.match(/<h1/gm)) {
+          alert("Un post ne peut avoir qu'un seul titre de niveau 1 !");
+          return;
+        }
+        if (data.body.match(/<big|<small|font-size/gm)) {
+          alert("Il est interdit de modifier la taille du texte !");
+          return;
+        }
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
         const formData = new FormData();
         formData.append("title", data.title);
         formData.append("body", data.body);
         formData.append("image", uploadedFile);
-        for (var p of formData) {
-          console.log(p);
-        }
         await fetch(`http://localhost:3000/api/post/edit/${id}`, {
           method: "PUT",
           credentials: "include",

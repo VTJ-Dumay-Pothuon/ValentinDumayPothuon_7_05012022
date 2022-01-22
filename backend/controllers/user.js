@@ -71,7 +71,6 @@ exports.updateProfile = (req, res, next) => {
     }
     const image = req.file ? `${req.protocol}://${req.get('host')}/images/profiles/${req.file.filename}` : 
     user.image ? user.image : null;
-    // console.log (`${name} ${surname} a l'image : ${image} et la description : ${description}`);
     user.set({
       name: name, surname: surname,           // Profile mandatory
       image: image, description: description  // Profile facultative

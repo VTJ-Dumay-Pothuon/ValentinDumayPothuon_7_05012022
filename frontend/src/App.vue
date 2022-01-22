@@ -236,6 +236,16 @@
         padding: 5px;
       }
     }
+    &--delete {
+      position: absolute;
+      background: none;
+      border: none;
+      left: 5px;
+      top: 0;
+      opacity: 0;
+      transition: 200ms ease;
+      &:hover  { opacity: 1 }
+    }
   }
   #comment {
         &__btn { animation: content--appear 1s  500ms both }

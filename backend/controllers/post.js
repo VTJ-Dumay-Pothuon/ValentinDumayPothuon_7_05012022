@@ -91,7 +91,7 @@ exports.deletePost = (req, res, next) => {
       fs.unlink(`images/posts/${filename}`,
       (error) => { if (error) console.log({ error })});
     }
-    post.destroy(); // Removes the entire user entry from database
+    post.destroy(); // Removes the entire post entry from database
     res.status(204).json({ message: "Le post a été supprimé !" });
   })
   .catch(error => res.status(500).json({ error: error }));

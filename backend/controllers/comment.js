@@ -28,3 +28,16 @@ exports.getPostComments = (req, res, next) => {
     })
     .catch(error => res.status(500).json({ error }));
 };
+
+// DELETE
+exports.deleteComment = (req, res, next) => {
+  const id = req.params.id;
+  Comment.findOne({
+    where: {id: id}
+  })
+  .then(comment => {
+    comment.destroy(); // Removes the entire comment entry from database
+    res.status(204).json({ message: "Le commentaire a été supprimé !" });
+  })
+  .catch(error => res.status(500).json({ error: error }));
+}

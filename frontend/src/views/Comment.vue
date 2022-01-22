@@ -28,6 +28,10 @@
             const id = urlParams.get('postid');
             const data = reactive({ comment: '', postId: id});
             const submit = async () => {
+                if (data.comment.match(/\||<.*>|{.*}/gm)) {
+                  alert("Les balises HTML et les accolades sont interdites dans les commentaires !");
+                  return;
+                }
                 await fetch(`http://localhost:3000/api/comment/addto/${id}`, {
                 method: "POST",
                 headers: {
