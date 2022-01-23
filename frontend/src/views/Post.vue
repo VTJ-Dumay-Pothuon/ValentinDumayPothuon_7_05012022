@@ -50,11 +50,22 @@
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
             const router = useRouter();
+            if (id=="undefined") {
+                alert ("Une erreur s'est produite lors de la création du post !")
+                router.push('/home');
+                return;
+            }
             fetch(`http://localhost:3000/api/post/one/${id}`,{credentials: "include"})
             .then(obj => obj.json().then(res => {
+                if (!res.post) {
+                    alert ("Ce post n'existe pas !")
+                    router.push('/home');
+                    return;
+                }
                 if (res.canEdit != store.state.canEditPost) {
                     store.dispatch("setPostEdit", res.canEdit);
                     router.go(); // Force view reload only if edit right has changed
+                    return;
                 }
                 document.getElementById('post').innerHTML = 
                 '<article id=post__'+res.post.id+'>'

@@ -54,6 +54,62 @@
   import {useRouter} from 'vue-router';
   export default {
     name: "Register",
+    mounted() {
+      const emailbox   = document.getElementsByClassName('form-floating')[0].firstChild;
+      const passbox    = document.getElementsByClassName('form-floating')[1].firstChild;
+      const namebox    = document.getElementsByClassName('form-floating')[2].firstChild;
+      const surnamebox = document.getElementsByClassName('form-floating')[3].firstChild;
+      [emailbox, passbox, namebox, surnamebox].forEach(textbox =>
+        ['keydown','paste','focusout'].forEach(event => 
+        textbox.addEventListener( event, () => {
+          // Eliminates non-UTF8 characters :
+          textbox.value = textbox.value.replace(/[^\u0020-\uFFFF]/g,'')
+          // Blacklists many non-letter fancy characters :
+          textbox.value = textbox.value.replace(
+            /[\u0FD5-\u0FD8\u2500-\u261F\u2639-\u263B\u26B0-\u2775\u2794-\u2BFF]/g,''
+          )
+          this.data.email     = emailbox.value;
+          this.data.password   = passbox.value;
+          this.data.name       = namebox.value;
+          this.data.surname = surnamebox.value;
+        }, false)));
+
+      // Email pattern : Exámplɛ_12.3@example-123.abc
+      emailbox.addEventListener( 'focusout', () => {
+        if (/^[0-9A-Za-zÀ-ÖØ-öø-ſ+-._]+@[0-9a-z-]+.[a-z]+$/.test(emailbox.value)) {
+          emailbox.classList.add('valid');
+          emailbox.classList.remove('error');
+        } else {
+          emailbox.classList.add('error');
+          emailbox.classList.remove('valid');
+        }
+      }, false)
+
+      // Password pattern : Min_8-Chars_With_1-Cap_&_1-Digit!
+      passbox.addEventListener( 'focusout', () => {
+        if (/^(?=.{8,})(?:.*(?:[A-Z]|[0-9]).*(?:[A-Z]|[0-9]).*)$/.test(passbox.value) &&
+        /* No whitespace in password */
+        !(/\s+/.test(passbox.value))) {
+          passbox.classList.add('valid');
+          passbox.classList.remove('error');
+        } else {
+          passbox.classList.add('error');
+          passbox.classList.remove('valid');
+        }
+      }, false);
+
+      // (Sur)name pattern : At least two characters, no digit
+      [namebox, surnamebox].forEach(namesbox =>
+      namesbox.addEventListener( 'focusout', () => {
+        if (/^\D\D+$/.test(namesbox.value)) {
+          namesbox.classList.add('valid');
+          namesbox.classList.remove('error');
+        } else {
+          namesbox.classList.add('error');
+          namesbox.classList.remove('valid');
+        }
+      }, false));
+    },
     setup() {
       const data = reactive({
         email: "",
@@ -63,7 +119,7 @@
       });
       const router = useRouter();
       const submit = async () => {
-        if (data.name.match(/[<>|/;{}]/g) || data.surname.match(/[<>|/;{}]/g) || 
+        if (data.name.match(/[<>|/;{}\d]/g) || data.surname.match(/[<>|/;{}\d]/g) || 
             data.email.match(/[<>|/;{}]/g) || data.password.match(/[<>|/;{}]/g)) {
           alert("Un ou plusieurs caractères sont invalides !");
           return;
@@ -75,8 +131,14 @@
           },
           credentials: "include",
           body: JSON.stringify(data),
-        });
-        await router.push('/');
+        }).then(obj => obj.json().then(res => {
+          if (res.id) {
+            alert ('Bienvenue chez les Groupomaniaques !\nVous pouvez vous connecter dès maintenant.');
+            router.push('/');
+          } else {
+            alert ('Les informations sont erronées !');
+          }
+        }));
       };
       return { data, submit };
     },

@@ -41,9 +41,29 @@
     margin: auto;
     p {font-size: 14pt}
   }
+  big, small {
+    font-size: inherit;
+  }
   .navbar-brand h1 {
     font-size: 2.5em;
     text-align: center;
+  }
+  .form-control.valid {
+    border-color: rgb(25, 180, 0);
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(25, 180, 0, 0.25);
+    + *::after {
+      content:" valide";
+    }
+  }
+  .form-control.error {
+    border-color: rgb(255, 10, 10);
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(255, 10, 10, 0.25);
+    margin-right: 200px;
+    + *::after {
+      content:" invalide !";
+    }
   }
   .form-signin {
     width: 100%;

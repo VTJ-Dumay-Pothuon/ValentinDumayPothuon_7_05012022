@@ -28,7 +28,8 @@ exports.signup = (req, res, next) => {
           name: name, surname: surname,           // Profile mandatory
           image: image, description: description  // Profile facultative
         })
-        .then(res.status(201).json({ message: "L'utilisateur a été créé !" }))
+        .then(user => {
+          res.status(201).json({ id: user.id, message: "L'utilisateur a été créé !" })})
         .catch(res.status(400).json({ error }));
       })
     }
@@ -86,6 +87,8 @@ exports.updateProfile = (req, res, next) => {
 exports.deleteUser = (req, res, next) => {
 
   const userId = req.params.id;
+  const visitorId = jwtUtils.getUserId(req.cookies.token);
+  const selfDestruct = (userId==visitorId)
 
   User.findOne({
     where: {id: userId}
@@ -97,7 +100,7 @@ exports.deleteUser = (req, res, next) => {
       (error) => { if (error) console.log({ error })});
     }
     user.destroy(); // Removes the entire user entry from database
-    res.status(204).json({ message: "L'utilisateur a été supprimé !" });
+    res.status(204).json({ selfDestruct: selfDestruct, message: "L'utilisateur a été supprimé !" });
   })
   .catch(error => res.status(500).json({ error }));
 };

@@ -58,13 +58,22 @@
         setup() {
             const router = useRouter();
             const urlParams = new URLSearchParams(window.location.search);
-            if (!urlParams.get('id')) router.push(`/profile?id=${store.state.userId}`);
+            if (!urlParams.get('id')) {
+                router.push(`/profile?id=${store.state.userId}`);
+                return;
+            }
             const id = urlParams.get('id');
             fetch(`http://localhost:3000/api/auth/profile/${id}`,{credentials: "include"})
             .then(obj => obj.json().then(res => {
+                if (!res.user) {
+                    alert ("Ce groupomaniaque n'existe pas !")
+                    router.push('/home');
+                    return;
+                }
                 if (res.canEdit != store.state.canEditProfile) {
                     store.dispatch("setProfileEdit", res.canEdit);
                     router.go(); // Force view reload only if edit right has changed
+                    return;
                 }
                 document.getElementById('profile').innerHTML += 
                 '<h1>'
@@ -99,7 +108,7 @@
                 }
                 if (res.posts.length==0) {
                     document.getElementById('profile__posts').innerHTML = 
-                    '<p style="margin-top:20px">Ce Groupomaniaque n\'a encore rien posté.</p>';
+                    '<p style="margin-top:20px"><em>Ce Groupomaniaque n\'a encore rien posté.</em></p>';
                 }
                 
                 document.getElementById('profile--edit').innerHTML =

@@ -57,6 +57,22 @@
         reader.readAsDataURL(file);
       }
     },
+    mounted() {
+      const titlebox = document.getElementsByClassName('form-floating')[0].firstChild;
+      const bodybox  = document.getElementsByClassName('form-floating')[1].firstChild;
+      [titlebox, bodybox].forEach(textbox =>
+        ['keydown','paste','focusout'].forEach(event => 
+        textbox.addEventListener( event, () => {
+          // Eliminates non-UTF8 characters :
+          textbox.value = textbox.value.replace(/[^\u0020-\uFFFF]/g,'')
+          // Blacklists many non-letter fancy characters :
+          textbox.value = textbox.value.replace(
+            /[\u0FD5-\u0FD8\u2500-\u261F\u2639-\u263B\u26B0-\u2775\u2794-\u2BFF]/g,''
+          )
+          this.data.title = titlebox.value;
+          this.data.body  = bodybox.value;
+        }, false)));
+    },
     setup() {
       const data = reactive({
         title: "",

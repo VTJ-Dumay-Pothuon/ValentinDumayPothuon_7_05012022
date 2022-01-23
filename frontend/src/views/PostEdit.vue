@@ -56,20 +56,34 @@
         reader.readAsDataURL(file);
       }
     },
+    mounted() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id');
+      fetch(`http://localhost:3000/api/post/one/${id}`,{credentials: "include"})
+          .then(obj => obj.json().then(res => {
+            this.data.title = res.post.title;
+            this.data.body = res.post.body;
+      }))
+      const titlebox = document.getElementsByClassName('form-floating')[0].firstChild;
+      const bodybox  = document.getElementsByClassName('form-floating')[1].firstChild;
+      [titlebox, bodybox].forEach(textbox =>
+        ['keydown','paste','focusout'].forEach(event => 
+        textbox.addEventListener( event, () => {
+          // Eliminates non-UTF8 characters :
+          textbox.value = textbox.value.replace(/[^\u0020-\uFFFF]/g,'')
+          // Blacklists many non-letter fancy characters :
+          textbox.value = textbox.value.replace(
+            /[\u0FD5-\u0FD8\u2500-\u261F\u2639-\u263B\u26B0-\u2775\u2794-\u2BFF]/g,''
+          )
+          this.data.title = titlebox.value;
+          this.data.body  = bodybox.value;
+        }, false)));
+    },
     setup() {
       const data = reactive({
         title: "",
         body: ""
       });
-      document.addEventListener("DOMContentLoaded", () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get('id');
-        fetch(`http://localhost:3000/api/post/one/${id}`,{credentials: "include"})
-            .then(obj => obj.json().then(res => {
-              data.title = res.post.title;
-              data.body = res.post.body;
-        }))
-      })
       const router = useRouter();
       const submit = async () => {
         if (data.title.match(/\||<.*>|{.*}/gm)) {

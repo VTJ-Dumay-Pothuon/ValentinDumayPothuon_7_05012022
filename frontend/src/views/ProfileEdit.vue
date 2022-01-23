@@ -50,11 +50,15 @@
         class="form-control"
         placeholder="Password"
         maxlength="255"
-        required
       />
       <label for="floatingInput">Mot de passe</label>
     </div>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Valider</button>
+    <button class="w-100 btn btn-lg btn-primary delete"  v-on:click="deleteUser">
+      <i class="fas fa-exclamation-triangle"></i>
+        Effacer le profil
+      <i class="fas fa-exclamation-triangle"></i>
+    </button>
   </form>
 </template>
 <script>
@@ -64,13 +68,59 @@
   let uploadedFile;
   export default {
     name: "ProfileEdit",
-    data() {return {file:'', image:'', ownProfile:''}},
+    data() {return {file:'', image:'', ownProfile:'', router: useRouter()}},
     created: async function() {
         const urlParams = await new URLSearchParams(window.location.search);
         const id = await urlParams.get('id');
         this.ownProfile= await (store.state.userId == id);
     },
+    mounted() {
+      const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        fetch(`http://localhost:3000/api/auth/profile/${id}`,{credentials: "include"})
+            .then(obj => obj.json().then(res => {
+              this.data.name = res.user.name;
+              this.data.surname = res.user.surname;
+              this.data.description = res.user.description;
+        }))
+      const namebox    = document.getElementsByClassName('form-floating')[0].firstChild;
+      const surnamebox = document.getElementsByClassName('form-floating')[1].firstChild;
+      const descbox    = document.getElementsByClassName('form-floating')[2].firstChild;
+      [namebox, surnamebox, descbox].forEach(textbox =>
+        ['keydown','paste','focusout'].forEach(event => 
+        textbox.addEventListener( event, () => {
+          // Eliminates non-UTF8 characters :
+          textbox.value = textbox.value.replace(/[^\u0020-\uFFFF]/g,'')
+          // Blacklists many non-letter fancy characters :
+          textbox.value = textbox.value.replace(
+            /[\u0FD5-\u0FD8\u2500-\u261F\u2639-\u263B\u26B0-\u2775\u2794-\u2BFF]/g,''
+          )
+          // Blacklists digits from names
+          if (textbox!=descbox) textbox.value = textbox.value.replace(/\d/g,'');
+          this.data.name        = namebox.value;
+          this.data.surname  = surnamebox.value;
+          this.data.description = descbox.value;
+        }, false)));
+    },
     methods: {
+      deleteUser(event) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        if (window.confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) {
+          fetch(`http://localhost:3000/api/auth/delete/${id}`, {
+              method: "DELETE",
+              credentials: "include"
+          })
+          .then(obj => obj.json().then(user => {
+              this.router.push('/');
+              if (user.selfDestroy) store.dispatch("setAuthentificated", false)
+              return;
+          }))
+          .catch((error) => {
+              console.log(error, event);
+          })
+        }
+      },
       selectFile(e) {
         this.file = e.target.files[0];
         this.imagePreview(this.file);
@@ -94,24 +144,14 @@
       const own = reactive({
         password: ""
       });
-      document.addEventListener("DOMContentLoaded", () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get('id');
-        fetch(`http://localhost:3000/api/auth/profile/${id}`,{credentials: "include"})
-            .then(obj => obj.json().then(res => {
-              data.name = res.user.name;
-              data.surname = res.user.surname;
-              data.description = res.user.description;
-        }))
-      })
       const router = useRouter();
       const submit = async () => {
-        if (data.name.match(/[<>|/;{}]/g) || data.surname.match(/[<>|/;{}]/g) || 
+        if (data.name.match(/[<>|/;{}\d]/g) || data.surname.match(/[<>|/;{}\d]/g) || 
             data.description.match(/[<>|/;{}]/gm) || own.password.match(/[<>|/;{}]/g)) {
           if (!data.description.match(/<br>|<br *\/>/gm) ||
           data.description.match(/(<br>|<br *\/>)(.*<br>|<br *\/>)/gm)) {
             if (data.description.match(/<br/gm)) {
-              alert("La description ne peut pas dépasser deux paragraphes !");
+              alert("Vous ne pouvez utiliser <br> qu'une seule fois !");
             } else {
               alert("Un ou plusieurs caractères sont invalides !");
             }
@@ -148,6 +188,14 @@
     overflow: auto;
     resize: vertical;
     min-height: max-content !important;
+  }
+  .delete {
+    margin-top: 6vw;
+    .fa-exclamation-triangle {
+      margin: 0 10px;
+      color: red;
+      text-shadow: 0 0 10px yellow;
+    }
   }
 
   @media screen and (min-width: 600px) {
