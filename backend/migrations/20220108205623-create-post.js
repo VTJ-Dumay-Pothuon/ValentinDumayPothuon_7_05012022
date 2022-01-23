@@ -17,7 +17,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       body: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.TEXT
       },
       likes: {

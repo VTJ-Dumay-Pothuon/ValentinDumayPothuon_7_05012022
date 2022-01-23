@@ -6,6 +6,7 @@ import Login from "../views/Login.vue";
 
 import Profile from "../views/Profile.vue"
 import ProfileEdit from "../views/ProfileEdit.vue"
+import Memberlist from "../views/Memberlist.vue"
 
 import Post from "../views/Post.vue"
 import PostCreate from "../views/PostCreate.vue"
@@ -40,6 +41,10 @@ const routes = [
         path: "/profile/edit",
         component: ProfileEdit,
         props: true
+    },
+    {
+        path: "/members",
+        component: Memberlist
     },
     {
         path: "/post",

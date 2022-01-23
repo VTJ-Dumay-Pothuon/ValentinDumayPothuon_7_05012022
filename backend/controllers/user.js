@@ -5,6 +5,7 @@ const CryptoJS = require("crypto-js");
 const bcrypt = require('bcrypt');
 const fs = require("fs");
 require("dotenv").config();
+const sequelize = require('sequelize');
 
 // CREATE (Signup)
 exports.signup = (req, res, next) => {
@@ -38,7 +39,7 @@ exports.signup = (req, res, next) => {
 };
 
 // READ (Get user profile)
-exports.getProfile = (req, res, next) => {
+/* ONE */exports.getProfile = (req, res, next) => {
   const id = req.params.id;
   const idVisitor = jwtUtils.getUserId(req.cookies.token);
   const isAdminVisitor = jwtUtils.getAdminStatus(req.cookies.token);
@@ -50,6 +51,16 @@ exports.getProfile = (req, res, next) => {
   .then(user => {
     res.status(200).json({ user: user, canEdit: canEdit });
   })
+};
+/* ALL */exports.getAllProfiles = (req, res, next) => {
+  User.findAll({
+    attributes: ['id', 'name', 'surname', 
+    [sequelize.fn('date_format', sequelize.col('createdAt'), '%d/%m/%Y'), 'registration']]
+  })
+  .then(users => {
+    res.status(200).json({ users });
+  })
+  .catch(error => res.status(500).json({ error }));
 };
 
 // UPDATE (Edit user profile)

@@ -271,6 +271,13 @@
         &__btn { animation: content--appear 1s  500ms both }
     &__section { animation: content--appear 1s 1000ms both }
   }
+  .userlist {
+    &__row {
+      border-top: 1pt dotted black;
+      :first-child { font-weight: bold }
+    }
+  }
+
   @media screen and (max-width: 335px) {
     .container-fluid div {
       display: inline-block;
@@ -286,12 +293,33 @@
     .home__post { 
       grid-template-columns: min-content auto;
       &__author { min-width: 130px }
+      .post:hover { 
+        text-shadow: 0 0 1pt lightgrey;
+        box-shadow: 5px 4px 3px #0007;
+      }
+      a { width: fit-content }
     }
     .navspace { width: 30pt }
+    .userlist {
+      &__header, &__row {
+        display: inline-flex;
+        width: 100%;
+        :first-child {
+          width: 79%;
+          font-weight: inherit;
+          &:hover { text-shadow: 0 0 1pt lightgrey }
+        }
+        :first-child + div {width: 20% }
+      }
+    }
     #profile__posts {
       /* arbitrarily high maximum value ; 
       will stop at last (or 999th) post */
       a { max-width: 49% }
+      .post:hover { 
+        text-shadow: 0 0 1pt silver;
+        box-shadow: 5px 4px 3px #0007;
+      }
       @for $i from 1 to 1000 {
         a:nth-child(#{$i}) {
           align-self: center;

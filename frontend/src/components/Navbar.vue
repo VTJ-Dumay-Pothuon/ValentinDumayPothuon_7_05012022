@@ -26,7 +26,10 @@
           </li>
           <div class="navspace"></div>
           <li class="nav-item">
-            <router-link to="/profile" class="nav-link active">Profil</router-link>
+            <router-link to="/members" class="nav-link active">Annuaire</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/profile" class="nav-link active">Mon Profil</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/" class="nav-link active" @click="logout()">Déconnexion</router-link>

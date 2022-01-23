@@ -201,6 +201,7 @@
                 box-shadow: 5px 4px 3px #0003;
                 border-radius: 10px;
                 background: none;
+                &:hover { background-color: #EEE }
             }
         }
     }
