@@ -111,20 +111,16 @@
               method: "DELETE",
               credentials: "include"
           })
-          .then(obj => obj.json().then(user => {
-              this.router.push('/');
-              if (user.selfDestroy) store.dispatch("setAuthentificated", false)
-              return;
-          }))
           .catch((error) => {
               console.log(error, event);
           })
+          if (this.$data.ownProfile) store.dispatch("setAuthentificated", false);
+          this.router.replace('/');
         }
       },
       selectFile(e) {
         this.file = e.target.files[0];
         this.imagePreview(this.file);
-        // console.log(this.file);
         uploadedFile = this.file;
       },
       imagePreview(file) {
@@ -169,8 +165,10 @@
           method: "PUT",
           credentials: "include",
           body: formData
-        });
-        await router.push(`/profile?id=${id}`);
+        }).then (() => {
+          router.push(`/profile?id=${id}`);
+          router.go(`/profile?id=${id}`); /* force update */
+        })
       };
       return { data, own, submit };
     },

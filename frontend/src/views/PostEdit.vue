@@ -110,6 +110,7 @@
           body: formData
         });
         await router.push(`/post?id=${id}`);
+        await router.go(`/post?id=${id}`); /* force update */
       };
       return { data, submit };
     },
