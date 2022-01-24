@@ -165,10 +165,9 @@
           method: "PUT",
           credentials: "include",
           body: formData
-        }).then (() => {
-          router.push(`/profile?id=${id}`);
-          router.go(`/profile?id=${id}`); /* force update */
         })
+        await router.push(`/profile?id=${id}`);
+        await router.go(`/profile?id=${id}`); /* force update */
       };
       return { data, own, submit };
     },
