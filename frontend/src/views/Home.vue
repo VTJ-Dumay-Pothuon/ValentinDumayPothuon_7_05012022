@@ -54,15 +54,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .home {
-    &__logo {
-      display: flex;
-      justify-content: center;
-      filter: grayscale(1) brightness(0.9) contrast(1.3);
-      img {
-        max-width: 100%;
-        max-height: 500px;
-      }
+  .home__logo {
+    display: flex;
+    justify-content: center;
+    filter: grayscale(1) brightness(0.9) contrast(1.3);
+    img {
+      max-width: 100%;
+      max-height: 500px;
     }
+  }
+  
+  @media screen and (max-height: 400px) {
+    .home__logo img { max-height: 300px }
   }
 </style>

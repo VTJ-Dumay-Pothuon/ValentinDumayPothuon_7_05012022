@@ -103,7 +103,6 @@
       overflow: auto;
       max-height: 200px;
     }
-    img { max-width: 100% }
     &__author {
       padding-top: 5pt;
       animation: content--appear 1s 500ms both;
@@ -163,7 +162,7 @@
     }
     img {
         max-height: 200px;
-        max-width: 350px;
+        max-width: 100%;
         display: flex;
         margin: 0 auto;
     }
@@ -174,7 +173,6 @@
   #profile {
             animation: content--appear 1s 550ms both;
     &__posts {
-      img { max-width: 100% }
       > p { animation: content--appear 1s 550ms both }
       display: flex;
       flex-wrap: wrap;
@@ -193,7 +191,10 @@
     }
   }
   #post {
-    &__picture img { width: 100% }
+    &__picture img { 
+      width: 100%;
+      max-width: 350px;
+    }
     &__author img {
       display: inline;
       position: absolute;
