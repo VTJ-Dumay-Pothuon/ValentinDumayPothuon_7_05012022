@@ -107,15 +107,17 @@
                 document.getElementById('post__'+res.post.id+'__body').innerHTML = res.post.body;
                 }
                 if (res.post.image) {
-                document.getElementById('post__picture').firstChild.src = res.post.image
+                document.getElementById('post__picture').firstChild.src = res.post.image;
+                document.getElementById('post__picture').firstChild.alt = "Image du post";
                 }
-                
+
                 fetch(`http://localhost:3000/api/auth/profile/${res.post.UserId}`,{credentials: "include"})
                     .then(obj => obj.json().then(res => {
                         document.getElementById('post__author').innerHTML += 
                         ', par <a class="link-dark" href="/profile?id='+res.user.id+'">'
                         +res.user.name+' '+res.user.surname+'&nbsp;'
-                        +'<picture><img src="'+res.user.image+'" alt="" /></picture></a>';
+                        +'<picture><img src="'+res.user.image+'" alt="Photo de profil de '
+                    +res.user.name+' '+res.user.surname+'" /></picture></a>';
                         if (!res.user.image) {
                             document.getElementById('post__author')
                             .children[0].children[0].firstChild.src =
@@ -164,7 +166,8 @@
                     .then(obj => obj.json().then(res => {
                         document.getElementById(`comment__${comment.id}__author`).innerHTML = 
                         '<a class="link-dark" href="/profile?id='+res.user.id+'">'
-                        +'<picture><img src="'+res.user.image+'" alt="" /></picture>'
+                        +'<picture><img src="'+res.user.image+'" alt="Photo de profil de '
+                        +res.user.name+' '+res.user.surname+'" /></picture>'
                         +'<h3>'+res.user.name+' '+res.user.surname+'</h3></a>';
                         if (!res.user.image) {
                             document.getElementById(`comment__${comment.id}__author`)

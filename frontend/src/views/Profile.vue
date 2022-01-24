@@ -8,7 +8,7 @@
         <section id="profile__upperblock">
             <div><!--empty gridbuilding--></div>
             <picture id="profile__picture">
-                <img src="../assets/user-default.svg" alt="">
+                <img src="../assets/user-default.svg" alt="Image de profil par défaut">
             </picture>
             <aside v-show="canEditProfile" id="profile--edit"></aside>
         </section>
@@ -85,8 +85,11 @@
                 '<p>'+res.user.description+'</p>'}
 
                 if (res.user.image) {
-                document.getElementById('profile__picture').firstChild.src =
-                res.user.image} // replaces the default picture by user's only if defined
+                    document.getElementById('profile__picture').firstChild.src =
+                    res.user.image; // replaces the default picture by user's only if defined
+                    document.getElementById('profile__picture').firstChild.alt =
+                    'Photo de profil de '+res.user.name+' '+res.user.surname;
+                }
             }))
             .then(
             fetch(`http://localhost:3000/api/post/user/${id}`)
@@ -108,6 +111,7 @@
                     }
                     if (post.image) {
                     document.getElementById('post__'+post.id+'__picture').firstChild.src = post.image;
+                    document.getElementById('post__'+post.id+'__picture').firstChild.alt = "Image du post";
                     }
                 }
                 if (res.posts.length==0) {

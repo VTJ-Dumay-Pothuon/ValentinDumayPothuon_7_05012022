@@ -31,12 +31,15 @@ export default {
               }
               if (post.image) {
               document.getElementById('post__'+post.id+'__picture').firstChild.src = post.image;
+              document.getElementById('post__'+post.id+'__picture').firstChild.alt = "Image du post";
+              
               }
               fetch(`http://localhost:3000/api/auth/profile/${post.UserId}`,{credentials: "include"})
                 .then(obj => obj.json().then(res => {
                     document.getElementById(`post__${post.id}__author`).innerHTML = 
                     '<a class="link-dark" href="/profile?id='+res.user.id+'">'
-                    +'<picture><img src="'+res.user.image+'" alt="" /></picture>'
+                    +'<picture><img src="'+res.user.image+'" alt="Photo de profil de '
+                    +res.user.name+' '+res.user.surname+'" /></picture>'
                     +'<h3>'+res.user.name+' '+res.user.surname+'</h3></a>';
                     if (!res.user.image) {
                             document.getElementById(`post__${post.id}__author`)

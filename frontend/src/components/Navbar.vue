@@ -3,12 +3,18 @@
     <div class="container-fluid">
       <div v-if="!isLoggedIn">
         <router-link to="/" class="navbar-brand">
-          <img class="img-logo" src="../assets/icon-left-font-monochrome-white.svg" alt="" />
+          <img class="img-logo" 
+            src="../assets/icon-left-font-monochrome-white.svg" 
+            alt="Bienvenue chez les Groupomaniaques" 
+          />
         </router-link>
       </div>
       <div v-if="isLoggedIn">
         <router-link to="/home" class="navbar-brand">
-          <img class="img-logo" src="../assets/icon-left-font-monochrome-white.svg" alt="" />
+          <img class="img-logo" 
+            src="../assets/icon-left-font-monochrome-white.svg" 
+            alt="Page d'accueil" 
+          />
         </router-link>
       </div>
       <div>
