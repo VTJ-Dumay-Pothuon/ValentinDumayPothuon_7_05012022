@@ -7,7 +7,11 @@
         <aside v-show="canEditPost" id="post--edit"></aside> 
         <aside v-show="canEditPost" id="post--delete">
             <button v-on:click="deletePost"></button>
-        </aside> 
+        </aside>
+        <section id="post__likes">
+            <p id="post__likes__nb">0</p>
+            <button v-on:click="likePost"><i class="far fa-heart"></i></button>
+        </section>
     </article>
     <div id="comment__btn"><button v-on:click="commentPost">Répondre</button></div>
     <section id="comment__section"></section>
@@ -44,6 +48,33 @@
                 const urlParams = new URLSearchParams(window.location.search);
                 const id = urlParams.get('id');
                 this.router.push(`/comment?postid=${id}`);
+            },
+            likePost() {
+                const btn = document.getElementById('post__likes').children[1];
+                const nb_likes = document.getElementById('post__likes__nb');
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get('id');
+                if (btn.classList.contains('btn--pressed')) {
+                    btn.classList.remove('btn--pressed');
+                    nb_likes.innerText = parseInt(nb_likes.innerText)-1;
+                    fetch(`http://localhost:3000/api/like/remove/${id}`, {
+                        method: "DELETE",
+                        credentials: "include"
+                    })
+                    .catch((error) => {
+                        console.log(error, event);
+                    });
+                } else {
+                    btn.classList.add('btn--pressed');
+                    nb_likes.innerText = parseInt(nb_likes.innerText)+1;
+                    fetch(`http://localhost:3000/api/like/add/${id}`, {
+                        method: "POST",
+                        credentials: "include"
+                    })
+                    .catch((error) => {
+                        console.log(error, event);
+                    });
+                }
             }
         },
         setup () {
@@ -96,6 +127,22 @@
                 document.getElementById('post--delete').firstChild.innerHTML =
                 '<i class="fas fa-trash-alt"></i>';
             }))
+    /* From here, we're counting likes and setup the button */
+            .then(fetch(`http://localhost:3000/api/like/readfor/${id}`)
+            .then(obj => obj.json().then(res => {
+                if (res.likes) {
+                    const nb_likes = document.getElementById('post__likes__nb');
+                    nb_likes.innerText = res.likes.nb_likes;
+                }
+            })))
+            .then(fetch(`http://localhost:3000/api/like/hasliked/${id}`,{credentials: "include"})
+            .then(obj => obj.json().then(res => {
+                 const btn = document.getElementById('post__likes').children[1];
+                if (res.hasLiked) {
+                    console.l
+                    btn.classList.add('btn--pressed');
+                }
+            })))
     /* From here, we're adding the comments under the post */
             .then(fetch(`http://localhost:3000/api/comment/readfor/${id}`)
             .then(obj => obj.json().then(res => {
@@ -146,9 +193,31 @@
 </script>
 
 <style scoped lang=scss>
+    %button {
+        padding: 0 20pt;
+        border: 1pt solid black;
+        box-shadow: 5px 4px 3px #0003;
+        border-radius: 10px;
+        background: none;
+        &:hover { background-color: #EEE }
+    }
+    
     .post { margin: 0 40px }
     #post {
         margin: 20px;
+        &__likes {
+            margin-top: 8px;
+            text-align: right;
+            &__nb {
+                display: inline;
+                margin-right: 10px;
+            }
+            button {
+                @extend %button;
+                padding: 5pt 8pt;
+                font-size: 1.5rem;
+            }
+        }
         &--edit {
             position: absolute;
             margin-left: 5pt;
@@ -196,17 +265,13 @@
             margin: 10pt;
             text-align: center;
             button {
-                padding: 0 20pt;
-                border: 1pt solid black;
-                box-shadow: 5px 4px 3px #0003;
-                border-radius: 10px;
-                background: none;
-                &:hover { background-color: #EEE }
+                @extend %button;
             }
         }
     }
     @media screen and (min-width: 600px) {
         #comment__section { margin-right: 20px }
+        #post__likes { margin-top: -50px }
     }
     @media screen and (min-width: 1000px) {
         .post { margin-right: 20% }

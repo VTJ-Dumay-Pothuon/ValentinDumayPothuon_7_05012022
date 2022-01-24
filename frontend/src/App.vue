@@ -35,7 +35,11 @@
             transform: translateY(0) ;
         }
     }
-    
+  
+  @mixin block-shadow($color: #0003){
+    box-shadow: 5px 4px 3px $color;
+  }
+
   main {
     max-width: 1300px;
     margin: auto;
@@ -83,7 +87,7 @@
     background: none;
     border: 1pt solid black;
     border-radius: 10px;
-    box-shadow: 5px 4px 3px #0003;
+    @include block-shadow();
     &:hover {
       color: black;
       background-color: #EEE;
@@ -128,7 +132,7 @@
     border-radius: 10px;
     padding: 10px;
     margin: 10px 5px 0 0;
-    box-shadow: 5px 4px 3px #0003;
+    @include block-shadow();
     animation: content--appear 1s 500ms both;
     &::before {
       content: "";
@@ -159,7 +163,7 @@
     }
     img {
         max-height: 200px;
-        max-width: 100%;
+        max-width: 350px;
         display: flex;
         margin: 0 auto;
     }
@@ -187,14 +191,20 @@
       font-size: 2em;
     }
   }
-  #post__author {
-    img {
+  #post {
+    &__picture img { width: 100% }
+    &__author img {
       display: inline;
       position: absolute;
       max-height: 45px;
       border: 1.5pt solid black;
       border-radius: 10px;
       padding: 5px;
+    }
+    &__likes button.btn--pressed {
+      color: crimson;
+      text-shadow: 0 -1px 0 #D25C;
+      border: 1pt solid crimson !important;
     }
   }
   .comment {
@@ -204,7 +214,7 @@
     &__content {
       position: relative;
       border: 1pt solid black;
-      box-shadow: 5px 4px 3px #0003;
+      @include block-shadow();
       margin: 0 15px;
       border-radius: 10px;
       padding: 20px;
@@ -295,7 +305,7 @@
       &__author { min-width: 130px }
       .post:hover { 
         text-shadow: 0 0 1pt lightgrey;
-        box-shadow: 5px 4px 3px #0007;
+        @include block-shadow(#0007);
       }
       a { width: fit-content }
     }
@@ -312,13 +322,14 @@
         :first-child + div {width: 20% }
       }
     }
+    #post__picture { max-width: 500px }
     #profile__posts {
       /* arbitrarily high maximum value ; 
       will stop at last (or 999th) post */
       a { max-width: 49% }
       .post:hover { 
         text-shadow: 0 0 1pt silver;
-        box-shadow: 5px 4px 3px #0007;
+        @include block-shadow(#0007);
       }
       @for $i from 1 to 1000 {
         a:nth-child(#{$i}) {
