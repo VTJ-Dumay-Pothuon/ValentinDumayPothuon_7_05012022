@@ -18,13 +18,17 @@ export default {
                 +'<a href="/post?id='+post.id+'" class="text-dark text-decoration-none">'
                   +'<article class="post post__home" id="post__'+post.id+'">'
                       +'<h2>'+post.title+'</h2>'
-                      +'<p>'+post.body+'</p>'
+                      +'<p id="post__'+post.id+'__body"></p>'
                       +'<picture id="post__'+post.id+'__picture">'
                           +'<img src="" alt="" />'
                       +'</picture>'
                   +'</article>'
                 +'</a>'
               +'</section>');
+
+              if (post.body) {
+              document.getElementById('post__'+post.id+'__body').innerHTML = post.body;
+              }
               if (post.image) {
               document.getElementById('post__'+post.id+'__picture').firstChild.src = post.image;
               }

@@ -174,6 +174,7 @@
   #profile {
             animation: content--appear 1s 550ms both;
     &__posts {
+      img { max-width: 100% }
       > p { animation: content--appear 1s 550ms both }
       display: flex;
       flex-wrap: wrap;
@@ -324,13 +325,14 @@
     }
     #post__picture { max-width: 500px }
     #profile__posts {
-      /* arbitrarily high maximum value ; 
-      will stop at last (or 999th) post */
+      h2 { text-align: center }
       a { max-width: 49% }
       .post:hover { 
         text-shadow: 0 0 1pt silver;
         @include block-shadow(#0007);
       }
+      /* arbitrarily high maximum value ; 
+      will stop at last (or 999th) post */
       @for $i from 1 to 1000 {
         a:nth-child(#{$i}) {
           align-self: center;

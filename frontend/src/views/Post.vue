@@ -101,12 +101,15 @@
                 document.getElementById('post').innerHTML = 
                 '<article id=post__'+res.post.id+'>'
                 +'<h2>'+res.post.title+'<small id="post__author"></small></h2>'
-                +'<p>'+res.post.body+'</p></article>';
+                +'<p id=post__'+res.post.id+'__body></p></article>';
 
+                if (res.post.body) {
+                document.getElementById('post__'+res.post.id+'__body').innerHTML = res.post.body;
+                }
                 if (res.post.image) {
                 document.getElementById('post__picture').firstChild.src = res.post.image
                 }
-
+                
                 fetch(`http://localhost:3000/api/auth/profile/${res.post.UserId}`,{credentials: "include"})
                     .then(obj => obj.json().then(res => {
                         document.getElementById('post__author').innerHTML += 
