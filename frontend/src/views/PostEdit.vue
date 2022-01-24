@@ -74,7 +74,7 @@
         ['keydown','paste','focusout'].forEach(event => 
         textbox.addEventListener( event, () => {
           // Eliminates non-UTF8 characters :
-          textbox.value = textbox.value.replace(/[^\u0020-\uFFFF]/g,'')
+          textbox.value = textbox.value.replace(/[^\s\u0020-\uFFFF]/g,'')
           // Blacklists many non-letter fancy characters :
           textbox.value = textbox.value.replace(
             /[\u0FD5-\u0FD8\u2500-\u261F\u2639-\u263B\u26B0-\u2775\u2794-\u2BFF]/g,''
