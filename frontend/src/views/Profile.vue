@@ -31,8 +31,9 @@
         methods: {
             removePicture() {
                 const profile_picture = document.getElementById('profile__picture').firstChild;
-                console.log (profile_picture)
-                if (profile_picture.src != "http://localhost:8080/img/user-default.1fab100a.svg") {
+                const getImage = require.context('../assets/', false, /\.svg$/);
+                const srcDefault = 'http://localhost:8080'+getImage('./user-default.svg');
+                if (profile_picture.src != srcDefault) {
                 const urlParams = new URLSearchParams(window.location.search);
                 const id = urlParams.get('id');
                 const data = { deleteImage: true };
@@ -45,7 +46,7 @@
                 body: JSON.stringify(data)
                 })
                 .then (() => {
-                    this.router.go(`/profile?id=${id}`)
+                    //this.router.go(`/profile?id=${id}`)
                 })
                 .catch((error) => {
                     console.log( error );

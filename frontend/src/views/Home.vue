@@ -8,6 +8,7 @@
 <script>
 export default {
   setup() {
+    const getImage = require.context('../assets/', false, /\.svg$/);
     fetch(`http://localhost:3000/api/post/all`)
       .then(obj => obj.json().then(res => {
           document.getElementById('home__content').innerHTML='';
@@ -44,7 +45,7 @@ export default {
                     if (!res.user.image) {
                             document.getElementById(`post__${post.id}__author`)
                             .children[0].children[0].firstChild.src =
-                            "/img/user-default.1fab100a.svg";
+                            getImage('./user-default.svg');
                         }
               }))
           }
@@ -63,7 +64,7 @@ export default {
       max-height: 500px;
     }
   }
-  
+
   @media screen and (max-height: 400px) {
     .home__logo img { max-height: 300px }
   }

@@ -78,6 +78,7 @@
             }
         },
         setup () {
+            const getImage = require.context('../assets/', false, /\.svg$/);
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
             const router = useRouter();
@@ -121,7 +122,7 @@
                         if (!res.user.image) {
                             document.getElementById('post__author')
                             .children[0].children[0].firstChild.src =
-                            "/img/user-default.1fab100a.svg";
+                            getImage('./user-default.svg');
                         }
                     }))
 
@@ -172,7 +173,7 @@
                         if (!res.user.image) {
                             document.getElementById(`comment__${comment.id}__author`)
                             .children[0].children[0].firstChild.src =
-                            "/img/user-default.1fab100a.svg";
+                            getImage('./user-default.svg');
                         }
 
                         /* The eventListener is here so that we can use both comment's and author's infos */
