@@ -107,7 +107,7 @@
                 }
                 document.getElementById('post').innerHTML = 
                 '<article id=post__'+res.post.id+'>'
-                +'<h2>'+res.post.title+'<small id="post__author"></small></h2>'
+                +'<h1>'+res.post.title+'<span id="post__author"></span></h1>'
                 +'<p id=post__'+res.post.id+'__body></p></article>';
 
                 if (res.post.body) {

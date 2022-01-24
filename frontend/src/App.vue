@@ -195,13 +195,16 @@
       width: 100%;
       max-width: 350px;
     }
-    &__author img {
-      display: inline;
-      position: absolute;
-      max-height: 45px;
-      border: 1.5pt solid black;
-      border-radius: 10px;
-      padding: 5px;
+    &__author {
+      font-size: 0.75em;
+      img {
+        display: inline;
+        position: absolute;
+        max-height: 45px;
+        border: 1.5pt solid black;
+        border-radius: 10px;
+        padding: 5px;
+      }
     }
     &__likes button.btn--pressed {
       color: crimson;
