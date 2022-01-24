@@ -57,6 +57,12 @@
         return store.state.authentificated;
       },
     },
+    mounted() {
+      if (window.matchMedia("(max-width: 335px)").matches) {
+        document.getElementsByClassName('navbar-brand')[0].innerHTML =
+        '<h1><i class="fas fa-globe"></i><h1>'
+      }
+    },
     setup() {
       const router = useRouter();
       const logout = () => {
@@ -76,13 +82,6 @@
       return { logout };
     },
   };
-  document.addEventListener("DOMContentLoaded", () => {
-    if (window.matchMedia("(max-width: 335px)").matches) {
-      document.getElementsByClassName('navbar-brand')[0].innerHTML =
-      '<h1><i class="fas fa-globe"></i><h1>'
-    }
-  })
-
 </script>
 
  <style scoped lang=scss>
