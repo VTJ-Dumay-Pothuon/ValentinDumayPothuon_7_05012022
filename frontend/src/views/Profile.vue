@@ -1,6 +1,7 @@
 <template>
     <div v-show="canEditProfile" id="profile__picture--remove">
-        <button v-on:click="removePicture">
+        <button aria-label="Supprimer l'image"
+        v-on:click="removePicture" v-on:keydown="removePicture">
             <i class="far fa-times-circle"></i>
         </button>
     </div>
@@ -98,7 +99,8 @@
                 document.getElementById('profile__posts').innerHTML='';
                 for (let post of res.posts) {
                     document.getElementById('profile__posts').insertAdjacentHTML('afterbegin', 
-                    '<a href="/post?id='+post.id+'" class="text-dark text-decoration-none">'
+                    '<a aria-label="'+post.title+'" href="/post?id='+post.id
+                    +'" class="text-dark text-decoration-none">'
                         +'<article class="post post__by-user" id="profile__'+id+'__post__'+post.id+'">'
                             +'<h2>'+post.title+'</h2>'
                             +'<p id=post__'+post.id+'__body></p>'

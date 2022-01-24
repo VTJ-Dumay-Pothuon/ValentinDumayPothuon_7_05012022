@@ -4,13 +4,14 @@
     <div class="form-floating">
       <textarea
         v-model="data.comment"
+        id="floatingInputComment"
         type="text"
         class="form-control"
         placeholder="Réponse"
         maxlength="255"
         rows="1"
       />
-      <label for="floatingInput">Votre réponse</label>
+      <label for="floatingInputComment">Votre réponse</label>
     </div>
     <p>(max. 255 caractères)</p>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Valider</button>

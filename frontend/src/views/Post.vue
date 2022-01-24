@@ -6,14 +6,20 @@
         </picture>
         <aside v-show="canEditPost" id="post--edit"></aside> 
         <aside v-show="canEditPost" id="post--delete">
-            <button v-on:click="deletePost"></button>
+            <button aria-label="Supprimer le post"
+            v-on:click="deletePost" v-on:keydown="deletePost"></button>
         </aside>
         <section id="post__likes">
             <p id="post__likes__nb">0</p>
-            <button v-on:click="likePost"><i class="far fa-heart"></i></button>
+            <button aria-label="Liker le post" 
+            v-on:click="likePost" v-on:keydown="likePost">
+                <i class="far fa-heart"></i>
+            </button>
         </section>
     </article>
-    <div id="comment__btn"><button v-on:click="commentPost">Répondre</button></div>
+    <div id="comment__btn">
+        <button v-on:click="commentPost" v-on:keydown="commentPost">Répondre</button>
+    </div>
     <section id="comment__section"></section>
 </template>
 
@@ -127,7 +133,7 @@
                     }))
 
                 document.getElementById('post--edit').innerHTML =
-                '<a href="/post/edit?id='+urlParams.get('id')
+                '<a aria-label="Modifier le post" href="/post/edit?id='+urlParams.get('id')
                 +'" class="link-dark"><i class="fas fa-edit"></i></a>'
 
                 document.getElementById('post--delete').firstChild.innerHTML =
@@ -157,7 +163,8 @@
                     document.getElementById('comment__section').insertAdjacentHTML('afterbegin',
                     '<section class="comment">'
                         +'<article class="comment__content" id="post__'+id+'__comment__'+comment.id+'">'
-                            +'<button class="comment--delete"><i class="fas fa-times"></i></button>'
+                            +'<button aria-label="Supprimer le commentaire" class="comment--delete">'
+                            +'<i class="fas fa-times"></i></button>'
                             +'<p>'+comment.body+'</p>'
                         +'</article>'
                         +'<section class="comment__author" id="comment__'+comment.id+'__author"></section>'

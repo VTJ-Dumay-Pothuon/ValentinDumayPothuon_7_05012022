@@ -4,46 +4,50 @@
     <div class="form-floating">
       <input
         v-model="data.email"
+        id="floatingInputEmail"
         type="email"
         class="form-control"
         placeholder="name@example.com"
         maxlength="255"
         required
       />
-      <label for="floatingInput">Adresse email</label>
+      <label for="floatingInputEmail">Adresse email</label>
     </div>
     <div class="form-floating">
       <input
         v-model="data.password"
+        id="floatingInputPassword"
         type="password"
         class="form-control"
         placeholder="Password"
         maxlength="255"
         required
       />
-      <label for="floatingPassword">Mot de passe</label>
+      <label for="floatingInputPassword">Mot de passe</label>
     </div>
     <div class="form-floating">
       <input
         v-model="data.name"
+        id="floatingInputName"
         type="test"
         class="form-control"
         placeholder="Prénom"
         maxlength="50"
         required
       />
-      <label for="floatingInput">Prénom</label>
+      <label for="floatingInputName">Prénom</label>
     </div>
     <div class="form-floating">
       <input
         v-model="data.surname"
+        id="floatingInputSurname"
         type="test"
         class="form-control"
         placeholder="Nom"
         maxlength="50"
         required
       />
-      <label for="floatingInput">Nom de famille</label>
+      <label for="floatingInputSurname">Nom de famille</label>
     </div>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Valider</button>
   </form>

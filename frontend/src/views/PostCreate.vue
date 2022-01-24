@@ -4,27 +4,31 @@
     <div class="form-floating">
       <input
         v-model="data.title"
+        id="floatingInputTitle"
         type="text"
         class="form-control"
         placeholder="Titre"
         maxlength="100"
         required
       />
-      <label for="floatingInput">Titre</label>
+      <label for="floatingInputTitle">Titre</label>
     </div>
     <div class="form-floating">
       <textarea
         v-model="data.body"
+        id="floatingInputBody"
         type="text"
         class="form-control"
         placeholder="Contenu"
         rows="3"
       />
-      <label for="floatingInput">Contenu</label>
+      <label for="floatingInputBody">Contenu</label>
     </div>
     <div class="form-floating">
       <input
         type="file"
+        role="button"
+        aria-label="Ajouter une image"
         class="form-control"
         accept="image/png, image/jpeg, image/jpg, image/gif"
         placeholder="Image"

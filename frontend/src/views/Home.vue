@@ -16,7 +16,8 @@ export default {
               document.getElementById('home__content').insertAdjacentHTML('afterbegin', 
               '<section class="home__post">'
                 +'<section class="home__post__author" id="post__'+post.id+'__author"></section>'
-                +'<a href="/post?id='+post.id+'" class="text-dark text-decoration-none">'
+                +'<a aria-label="'+post.title+'" href="/post?id='+post.id
+                +'" class="text-dark text-decoration-none">'
                   +'<article class="post post__home" id="post__'+post.id+'">'
                       +'<h2>'+post.title+'</h2>'
                       +'<p id="post__'+post.id+'__body"></p>'

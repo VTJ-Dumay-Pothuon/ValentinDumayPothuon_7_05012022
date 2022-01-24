@@ -4,38 +4,43 @@
     <div class="form-floating">
       <input
         v-model="data.name"
+        id="floatingInputName"
         type="text"
         class="form-control"
         placeholder="Prénom"
         maxlength="50"
         required
       />
-      <label for="floatingInput">Prénom</label>
+      <label for="floatingInputName">Prénom</label>
     </div>
     <div class="form-floating">
       <input
         v-model="data.surname"
+        id="floatingInputSurname"
         type="text"
         class="form-control"
         placeholder="Nom"
         maxlength="50"
         required
       />
-      <label for="floatingInput">Nom de famille</label>
+      <label for="floatingInputSurname">Nom de famille</label>
     </div>
     <div class="form-floating">
       <textarea
         v-model="data.description"
+        id="floatingInputDescription"
         type="text"
         class="form-control"
         placeholder="Description"
         maxlength="255"
       />
-      <label for="floatingInput">Description</label>
+      <label for="floatingInputDescription">Description</label>
     </div>
     <div class="form-floating">
       <input
         type="file"
+        role="button"
+        aria-label="Ajouter une image"
         class="form-control"
         accept="image/png, image/jpeg, image/jpg"
         placeholder="Image"
@@ -46,12 +51,13 @@
     <div class="form-floating" v-if="ownProfile">
       <input
         v-model="own.password"
+        id="floatingInputPassword"
         type="password"
         class="form-control"
         placeholder="Password"
         maxlength="255"
       />
-      <label for="floatingInput">Mot de passe</label>
+      <label for="floatingInputPassword">Mot de passe</label>
     </div>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Valider</button>
     <button class="w-100 btn btn-lg btn-primary delete"  v-on:click="deleteUser">
