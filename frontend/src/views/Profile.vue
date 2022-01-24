@@ -46,7 +46,7 @@
                 body: JSON.stringify(data)
                 })
                 .then (() => {
-                    //this.router.go(`/profile?id=${id}`)
+                    this.router.go(`/profile?id=${id}`)
                 })
                 .catch((error) => {
                     console.log( error );
