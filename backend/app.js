@@ -23,7 +23,7 @@ const con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  console.log("Connected!");
+  /* console.log("Connected!"); */
 });
 
 
@@ -48,7 +48,7 @@ app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
 app.use('/api/like', likeRoutes);
 
-// Required by multer to save pictures on the server
+/* Required by multer to save pictures on the server */
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 module.exports = app;
