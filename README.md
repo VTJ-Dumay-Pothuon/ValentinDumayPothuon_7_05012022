@@ -43,8 +43,11 @@ TOKEN_4 = Une clef de cryptage alphanumérique
 ### Je recommande d'utiliser une chaîne SHA-256 aléatoire et différente pour les cinq clefs.
 https://emn178.github.io/online-tools/sha256.html
 
-#### Allez dans `backend/config/config.json` et modifiez les champs 'username' et 'password',
-#### pour qu'ils contiennent les identifiants du compte configuré pour SQL Server.
+#### Allez dans `backend/config/config.json` et modifiez les champs 'username' et 'password',<br />pour qu'ils contiennent les identifiants du compte configuré pour SQL Server.
+
+## Dans le dossier `backend`, créez un dossier 'images' ;
+#### Dans le dossier `images`, créez un dossier 'posts' ;
+#### Dans le dossier `images`, créez un dossier 'profiles'.
 
 ## Créez les bases de données :
 ```
@@ -78,3 +81,10 @@ npm run serve
 npm run build
 ```
 #####         *(choissez une des deux commandes ; la première compilation est plus rapide, la seconde application est plus fluide)*
+
+# 
+
+### Note : pour créer un utilisateur disposant des droits administrateurs, il faut d'abord<br />l'inscrire sur le site via le formulaire classique d'inscription. Ensuite, récupérez son id<br />dans l'URL de sa page de profil. Connectez-vous à la base de données pour modifier<br />son entrée manuellement. Par exemple, avec MySQL et un id=5, la commande sera :
+```
+UPDATE `users` SET `isAdmin`=1 WHERE `id` = 5;
+```
