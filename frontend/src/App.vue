@@ -71,15 +71,18 @@
   }
   .form-signin {
     width: 100%;
-    max-width: 400px;
+    max-width: 800px;
     padding: 15px;
     margin: auto;
-    .checkbox {
-      font-weight: 400;
+    textarea {
+      overflow: auto;
+      resize: vertical;
+      margin: 10px 0;
+      min-height: 100px !important;
     }
-    .form-floating:focus-within {
-      z-index: 2;
-    }
+    .upload { max-width: 400px; margin: 0 auto }
+    .checkbox { font-weight: 400 }
+    .form-floating:focus-within { z-index: 2 }
   }
   .btn-primary {
     margin-top: 10pt;

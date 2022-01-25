@@ -36,7 +36,7 @@
       />
       <label for="floatingInputDescription">Description</label>
     </div>
-    <div class="form-floating">
+    <div class="form-floating upload">
       <input
         type="file"
         role="button"
@@ -187,27 +187,12 @@
     display: block;
     margin: 10px auto;
   }
-  textarea {
-    overflow: auto;
-    resize: vertical;
-    min-height: max-content !important;
-  }
   .delete {
     margin-top: 6vw;
     .fa-exclamation-triangle {
       margin: 0 10px;
       color: red;
       text-shadow: 0 0 10px yellow;
-    }
-  }
-
-  @media screen and (min-width: 600px) {
-      textarea {
-        margin: 10px -25%;
-        width: 150%;
-        + label {
-          margin-left: -25%;
-        }
     }
   }
 </style>

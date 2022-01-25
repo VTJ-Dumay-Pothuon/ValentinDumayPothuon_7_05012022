@@ -24,7 +24,7 @@
       />
       <label for="floatingInputBody">Contenu</label>
     </div>
-    <div class="form-floating">
+    <div class="form-floating upload">
       <input
         type="file"
         role="button"
@@ -131,15 +131,5 @@
     margin: auto;
     display: block;
     margin: 10px auto;
-  }
-  textarea {
-    overflow: auto;
-    resize: vertical;
-    margin: 10px -25%;
-    min-height: 100px !important;
-    width: 150%;
-    + label {
-      margin-left: -25%;
-    }
   }
 </style>
