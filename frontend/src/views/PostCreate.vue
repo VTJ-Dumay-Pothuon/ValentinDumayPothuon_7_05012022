@@ -88,6 +88,10 @@
           alert("Les balises HTML et les accolades sont interdites dans le titre !");
           return;
         }
+        if (data.title.match(/^[\s!-/:-?[-`{-~¢-¨ª¬-°²-¾×÷ʰ-;]/gm)) {
+          alert("Le titre ne doit pas commencer par un signe de ponctuation !");
+          return;
+        }
         if (data.body.match(/<h1/gm)) {
           alert("Un post ne peut avoir qu'un seul titre de niveau 1 !");
           return;
