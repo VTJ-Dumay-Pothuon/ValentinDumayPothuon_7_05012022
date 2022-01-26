@@ -151,7 +151,6 @@
             .then(obj => obj.json().then(res => {
                  const btn = document.getElementById('post__likes').children[1];
                 if (res.hasLiked) {
-                    console.l
                     btn.classList.add('btn--pressed');
                 }
             })))
