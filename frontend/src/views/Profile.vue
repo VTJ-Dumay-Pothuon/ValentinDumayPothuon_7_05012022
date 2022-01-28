@@ -167,22 +167,14 @@
             justify-content: center;
         }
         &--edit {
-            margin: 10px;
-            z-index: 3;
-            :first-child::after {
-                margin-left: 5px;
-                content: "Modifier";
-                opacity: 0;
-                transition: 300ms ease-in;
-            }
-            &:hover :first-child ::after {
-                opacity: 1;
-            }
-            .fas::before {
+                margin: 10px;
                 z-index: 3;
+                .fas::before {
+                    z-index: 3;
+                }
             }
-        }
     }
+
     @media screen and (min-width: 1300px) {
         #profile__picture--remove {
             max-width: 1300px;

@@ -306,6 +306,19 @@
     .home__post__author h3 { font-size: revert }
        .comment__author h3 { font-size: revert }
   }
+  @media screen and (min-width: 570px) {
+        #profile--edit {
+            :first-child::after {
+                margin-left: 5px;
+                content: "Modifier";
+                opacity: 0;
+                transition: 300ms ease-in;
+            }
+            &:hover :first-child ::after {
+                opacity: 1;
+            }
+        }
+    }
   @media screen and (min-width: 800px) {
     .post { margin: 10px auto }
     .home__post { 
